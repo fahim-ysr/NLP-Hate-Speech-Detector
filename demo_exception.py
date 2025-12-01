@@ -1,9 +1,8 @@
 import sys
-from logger import logging
-from exception import CustomException
+from pipelines.train import Training
 
-try:
-    curr = 6/"7"
 
-except Exception as e:
-    raise CustomException(e, sys) from e
+# Initializing class object
+process = Training()
+# Executing the training pipeline
+process.execute_pipeline()

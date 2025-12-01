@@ -14,10 +14,10 @@ class GCloudSync:
         os.system(command)
 
 
-    def sync_from_gcloud(self, bucket, destination, name):
+    def sync_from_gcloud(self, bucket, name, destination):
         """
         Syncs gcloud content with the folder content (download)
         """
 
-        command = f"gsutil cp gs://{bucket}/ {destination}/{name}"
+        command = f"gsutil cp gs://{bucket}/{name} '{destination}'"
         os.system(command)
