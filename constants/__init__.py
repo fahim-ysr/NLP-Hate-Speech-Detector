@@ -3,7 +3,7 @@
 import os
 from datetime import datetime
 
-# Common constraints
+# Common Constants
 TIMESTAMP: str = datetime.now().strftime("%m_%d_%Y_%H_%S")
 ARTIFACTS_DIR = os.path.join("artifacts", TIMESTAMP)
 BUCKET_NAME = "hatespeechdataset"
@@ -15,3 +15,8 @@ LABEL = "Label"
 DATA_INGESTION_ARTIFACTS_DIR = "DataIngestionArtifacts"
 DATASET1 = "HateSpeechDatasetBalanced.csv"
 DATASET2 = "EmojiHate.csv"
+
+# Data Transformation Constants
+DATA_TRANSFORMATION_ARTIFACTS_DIR = "DataTransformationArtifacts"
+TRANSFORMED_FILE = "transformed.csv"
+DATA_DIR = "data"

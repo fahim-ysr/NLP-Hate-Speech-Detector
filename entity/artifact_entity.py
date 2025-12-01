@@ -4,3 +4,7 @@ from dataclasses import dataclass
 class DataIngestionArtifacts:
     dataset1: str
     dataset2: str
+
+@dataclass
+class DataTransformationArtifacts:
+    pass
