@@ -24,6 +24,7 @@ class Training:
             logging.info("Completed data ingestion from GCloud.")
             return data_ingestion_artifacts
         
+        # Exception handling
         except Exception as e:
             raise CustomException(e, sys) from e
         
@@ -34,5 +35,6 @@ class Training:
             data_ingestion_artifacts = self.start_data_ingestion()
             logging.info("Training pipeline ended.")
 
+        # Exception handling
         except Exception as e:
             raise CustomException(e, sys) from e

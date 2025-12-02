@@ -20,3 +20,5 @@ class DataTransformationConfig:
     def __init__(self):
         self.DATA_TRANSFORMATION_ARTIFACTS_DIR: str = os.path.join(os.getcwd(), ARTIFACTS_DIR, DATA_TRANSFORMATION_ARTIFACTS_DIR)
         self.TRANSFORMED_FILE_PATH = os.path.join(self.DATA_TRANSFORMATION_ARTIFACTS_DIR, TRANSFORMED_FILE)
+        self.CONTENT = CONTENT
+        self.LABEL = LABEL

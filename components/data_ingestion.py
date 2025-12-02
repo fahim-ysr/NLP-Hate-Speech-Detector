@@ -45,6 +45,7 @@ class DataIngestion:
 
             return dataset1, dataset2
 
+        # Exception handling
         except Exception as e:
             raise CustomException(e, sys) from e
         
