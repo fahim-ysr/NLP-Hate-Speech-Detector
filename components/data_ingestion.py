@@ -80,5 +80,6 @@ class DataIngestion:
 
             return data_ingestion_artifacts
         
+        # Exception handling
         except Exception as e:
             raise CustomException(e, sys) from e
