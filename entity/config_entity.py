@@ -45,3 +45,6 @@ class ModelTrainerConfig:
         self.DF_TRAIN_DATA_PATH = os.path.join(self.TRAINED_MODEL_DIR, DF_TRAIN_FILE_NAME)
         self.MAX_WORDS = MAX_WORDS
         self.MAX_LENGTH = MAX_LENGTH
+        self.BATCH_SIZE = BATCH_SIZE
+        self.SPLIT_SIZE = SPLIT_SIZE
+        self.EPOCH = EPOCH

@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split
 # For Deep Learning
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
+import pickle
 
 from logger import logging
 from exception import CustomException
@@ -19,6 +20,7 @@ from constants import *
 from entity.config_entity import ModelTrainerConfig
 from entity.artifact_entity import DataIngestionArtifacts
 from entity.artifact_entity import DataTransformationArtifacts
+from entity.artifact_entity import ModelTrainerArtifacts
 from components.model import ModelArchitecture
 
 class ModelTrainer:
@@ -86,6 +88,52 @@ class ModelTrainer:
             logging.info(f"Sequence matrix: {sequences_matrix}")
 
             return sequences_matrix, tokenizer
+
+        # Exception handling
+        except Exception as e:
+            raise CustomException(e, sys) from e
+        
+
+    def initiate_model_training(self):
+        """
+        Initiates model training
+        """
+
+        try:
+            x_train, x_test, y_train, y_test = self.data_splitting(dataset = self.data_transformation_artifacts.transformed_data_path)
+
+            model_architecture = ModelArchitecture()
+
+            model = model_architecture.get_model()
+
+            logging.info(f"x_train size: {x_train.shape}")
+            logging.info(f"x_test shape: {x_test.shape}")
+
+            sequences_matrix, tokenizer = self.tokenization(x_train = x_train)
+
+            logging.info(f"Starting model training...")
+            model.fit(sequences_matrix, y_train, batch_size= self.model_trainer_config.BATCH_SIZE, epochs= self.model_trainer_config.EPOCH, validation_batch_size= self.model_trainer_config.SPLIT_SIZE)
+            logging.info(f"Completed model training.")
+
+            with open('tokenizer.pickle', 'wb') as handle:
+                pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+            os.makedirs(self.model_trainer_config.TRAINED_MODEL_DIR, exist_ok= True)
+
+            logging.info("Saving the trained model...")
+            # Saving model to make prediction on the saved sequences
+            model.save(self.model_trainer_config.TRAINED_MODEL_PATH)
+
+            x_test.to_csv(self.model_trainer_config.DF_TEST_DATA_PATH)
+            y_test.to_csv(self.model_trainer_config.TF_TEST_DATA_PATH)
+
+            x_train.to_csv(self.model_trainer_config.DF_TRAIN_DATA_PATH)
+            logging.info("Saved the trained model.")
+
+            model_trainer_artifacts = ModelTrainerArtifacts(trained_model_path= self.model_trainer_config.TRAINED_MODEL_PATH, x_test_path = self.model_trainer_config.DF_TEST_DATA_PATH, y_test_path = self.model_trainer_config.TF_TEST_DATA_PATH)
+            logging.info("Returning model artifacts...")
+
+            return model_trainer_artifacts
 
         # Exception handling
         except Exception as e:
