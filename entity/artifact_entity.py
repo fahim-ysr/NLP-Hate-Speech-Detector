@@ -26,3 +26,21 @@ class ModelTrainerArtifacts:
     trained_model_path: str
     df_test_path: list
     tf_test_path: list
+
+
+@dataclass
+class ModelEvaluationArtifacts:
+    """
+    Defined output from Model Evaluation
+    """
+
+    accept: bool
+
+
+@dataclass
+class ModelPushArtifacts:
+    """
+    Defines output from Model Pushing
+    """
+
+    bucket_name: str

@@ -52,11 +52,23 @@ class ModelTrainerConfig:
 @dataclass
 class ModelEvaluationConfig:
     """
-    Docstring for ModelEvaluationConfig
+    Configuration for evaluating the model
     """
 
     def __init__(self):
         self.MODEL_EVALUATION_MODEL_DIR = os.path.join(os.getcwd(), ARTIFACTS_DIR, MODEL_EVALUATION_ARTIFACTS_DIR)
         self.BEST_MODEL_DIR_PATH = os.path.join(self.MODEL_EVALUATION_MODEL_DIR, BEST_MODEL_DIR)
+        self.BUCKET_NAME = BUCKET_NAME
+        self.MODEL_NAME = MODEL_NAME
+
+    
+@dataclass
+class ModelPushConfig:
+    """
+    Configuration for pushing model to Google Cloud Storage
+    """
+
+    def __init__(self):
+        self.TRAINED_MODEL_PATH = os.path.join(os.getcwd(), ARTIFACTS_DIR, MODEL_TRAINER_ARTIFACTS_DIR)
         self.BUCKET_NAME = BUCKET_NAME
         self.MODEL_NAME = MODEL_NAME
