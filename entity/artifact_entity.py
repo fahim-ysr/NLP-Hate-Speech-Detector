@@ -7,4 +7,4 @@ class DataIngestionArtifacts:
 
 @dataclass
 class DataTransformationArtifacts:
-    pass
+    transformed_data_path :str

@@ -1,6 +1,7 @@
 # Importing required modules
 
 import sys
+import os
 # For splitting dataset
 from sklearn.model_selection import train_test_split
 # For handling and manipulating dataset
@@ -109,6 +110,7 @@ class DataTransformation:
             df[self.data_transformation_config.CONTENT] = df[self.data_transformation_config.CONTENT].apply(self.data_format)
 
             # Makes a directory and saves the concatenated dataset as CSV
+            os.makedirs(self.data_transformation_config.DATA_TRANSFORMATION_ARTIFACTS_DIR, exist_ok= True)
             df.to_csv(self.data_transformation_config.TRANSFORMED_FILE_PATH, index= False, header= True)
 
             # Creates data transformation artifact
