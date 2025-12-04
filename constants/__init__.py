@@ -39,3 +39,11 @@ RANDOM_STATE = 23
 EPOCH = 1
 BATCH_SIZE = 128
 SPLIT_SIZE = 0.2
+
+#Model Evaluation Constants
+MODEL_EVALUATION_ARTIFACTS_DIR = "ModelEvaluationArtifacts"
+BEST_MODEL_DIR = "best_model"
+MODEL_EVALUATION_FILE_NAME = "loss.csv"
+MODEL_NAME = "model.h5"
+HOST = "0.0.0.0"
+PORT = 8080

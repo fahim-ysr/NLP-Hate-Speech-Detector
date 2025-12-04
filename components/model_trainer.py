@@ -41,11 +41,11 @@ class ModelTrainer:
         try:
             logging.info("Carring out train-test-split operation...")
             logging.info("Reading data...")
-            df = pd.read(dataset, index_col = False)
+            df = pd.read_csv(dataset, index_col = False)
             
             # Assigning descriptive and target features
-            x = dataset[CONTENT]
-            y = dataset[LABEL]
+            x = df[CONTENT]
+            y = df[LABEL]
 
             logging.info("Splitting data into descriptive and target feature")
             
@@ -100,37 +100,49 @@ class ModelTrainer:
         """
 
         try:
+            # Loading and splitting the dataset
             x_train, x_test, y_train, y_test = self.data_splitting(dataset = self.data_transformation_artifacts.transformed_data_path)
 
+            # Building the LSTM model
             model_architecture = ModelArchitecture()
-
             model = model_architecture.get_model()
 
             logging.info(f"x_train size: {x_train.shape}")
             logging.info(f"x_test shape: {x_test.shape}")
 
+            # Tokenizing the training data
             sequences_matrix, tokenizer = self.tokenization(x_train = x_train)
 
+            # Training the model
             logging.info(f"Starting model training...")
             model.fit(sequences_matrix, y_train, batch_size= self.model_trainer_config.BATCH_SIZE, epochs= self.model_trainer_config.EPOCH, validation_batch_size= self.model_trainer_config.SPLIT_SIZE)
             logging.info(f"Completed model training.")
 
+            # Saving the tokenizer (For using it to convert new text into same number format)
             with open('tokenizer.pickle', 'wb') as handle:
                 pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+            # Creating output directory
             os.makedirs(self.model_trainer_config.TRAINED_MODEL_DIR, exist_ok= True)
 
             logging.info("Saving the trained model...")
             # Saving model to make prediction on the saved sequences
             model.save(self.model_trainer_config.TRAINED_MODEL_PATH)
 
+            # Saving the testing and training data for reference
             x_test.to_csv(self.model_trainer_config.DF_TEST_DATA_PATH)
             y_test.to_csv(self.model_trainer_config.TF_TEST_DATA_PATH)
 
             x_train.to_csv(self.model_trainer_config.DF_TRAIN_DATA_PATH)
             logging.info("Saved the trained model.")
 
-            model_trainer_artifacts = ModelTrainerArtifacts(trained_model_path= self.model_trainer_config.TRAINED_MODEL_PATH, x_test_path = self.model_trainer_config.DF_TEST_DATA_PATH, y_test_path = self.model_trainer_config.TF_TEST_DATA_PATH)
+            # Packaging all into an artifact object
+            model_trainer_artifacts = ModelTrainerArtifacts(
+                trained_model_path= self.model_trainer_config.TRAINED_MODEL_PATH,
+                x_test_path = self.model_trainer_config.DF_TEST_DATA_PATH,
+                y_test_path = self.model_trainer_config.TF_TEST_DATA_PATH
+                )
+            
             logging.info("Returning model artifacts...")
 
             return model_trainer_artifacts
