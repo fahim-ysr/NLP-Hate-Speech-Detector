@@ -15,7 +15,9 @@ def error_message_details(error, error_detail:sys):
 
 
 class CustomException(Exception):
-    # Inherits exception and gives tailored error message with details
+    """
+    Inherits exception and gives tailored error message with details
+    """
 
     def __init__(self, message, details):
         super().__init__(message)

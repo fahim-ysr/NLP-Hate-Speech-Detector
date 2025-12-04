@@ -10,6 +10,9 @@ from entity.config_entity import DataIngestionConfig
 from entity.artifact_entity import DataIngestionArtifacts
 
 class DataIngestion:
+    """
+    Handles downloading and extracting of dataset from Google Cloud Storage
+    """
     
     # Constructor function
     def __init__(self, data_ingestion_config: DataIngestionConfig):
@@ -17,6 +20,10 @@ class DataIngestion:
         self.gcloud = GCloudSync()
 
     def get_data(self):
+        """
+        Downloads the dataset zip file from Google Cloud Storage
+        """
+
         try:
             logging.info("Running get_data() method from DataIngestion class...")
             # Creates data ingestion artifact directory
@@ -30,6 +37,10 @@ class DataIngestion:
             raise CustomException(e, sys) from e
         
     def unzip_and_clean(self):
+        """
+        Extracts the downloaded zip file and returns the path to both datasets
+        """
+
         logging.info("Unzipping and cleaning datasets...")
 
         try:
@@ -52,7 +63,7 @@ class DataIngestion:
 
     def data_ingestion(self):
         """
-        Automates data ingestion from GCloud
+        Automates data ingestion from process: Google Cloud Storage -> Unzip and clean -> Returns path
         """
 
         logging.info("Initiating data ingestion...")

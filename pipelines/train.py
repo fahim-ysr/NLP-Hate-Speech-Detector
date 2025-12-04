@@ -12,7 +12,10 @@ from entity.artifact_entity import DataTransformationArtifacts
 
 
 class Training:
-    
+    """
+    Training pipeline. Carries out: Data Ingestion -> Data Transformation -> Model Training
+    """
+
     def __init__(self):
         self.data_ingestion_config = DataIngestionConfig()
         self.data_transformation_config = DataTransformationConfig()
