@@ -166,7 +166,7 @@ class ModelEvaluation:
                 logging.info("Comparing loss between best model and trained model")
 
                 # Compares the models' accuracy
-                if best_model_accuracy > trained_model_accuracy:
+                if trained_model_accuracy > best_model_accuracy:
                     # Accepts Google Cloud Storage model if it has better accuracy than the newly trained model
                     accept = True
                     logging.info("Trained model is not the best model...")
