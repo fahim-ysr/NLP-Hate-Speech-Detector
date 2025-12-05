@@ -7,7 +7,7 @@ import pandas as pd
 
 # For Deep Learning
 import keras
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.metrics import confusion_matrix
 import pickle
 
@@ -93,7 +93,7 @@ class ModelEvaluation:
             y_test = y_test.squeeze()
 
             # Converts text to sequences and pads them
-            test_sequences = tokenizer.texts_to_seqience(x_test)
+            test_sequences = tokenizer.texts_to_sequences(x_test)
             test_sequences_matrix = pad_sequences(test_sequences, maxlen = MAX_LENGTH)
 
             print(f"__________________{x_test.shape}__________________")

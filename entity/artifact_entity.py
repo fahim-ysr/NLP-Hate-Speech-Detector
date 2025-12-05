@@ -24,8 +24,8 @@ class ModelTrainerArtifacts:
     """
 
     trained_model_path: str
-    df_test_path: list
-    tf_test_path: list
+    df_test_path: str
+    tf_test_path: str
 
 
 @dataclass

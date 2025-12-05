@@ -31,9 +31,10 @@ class DataTransformation:
         """
         Cleans both datasets and returns them as concatanated in dataframe format
         """
+        
+        logging.info("Initiating data cleaning...")
 
         try:
-            logging.info("Initiating data cleaning...")
 
             # Importing both the datasets
             df1 = pd.read_csv(self.data_ingestion_artifacts.dataset1)
@@ -62,8 +63,9 @@ class DataTransformation:
         Formats data in a dataset. Removes URLs, punctuations, numbers and stopwords. Also applies stemming to reduce words to their root form.
         """
 
+        logging.info("Initiating data formatting...")
+
         try:
-            logging.info("Initiating data formatting...")
 
             # Initializing stemmers and stopwords on the data
             stemmer = nltk.SnowballStemmer("english")
@@ -100,11 +102,15 @@ class DataTransformation:
         Initiates data transformation.
         """
 
+        logging.info("Initiating data transformation...")
+
         try:   
-            logging.info("Initiating data transformation...")
 
             # Cleans the datasets and then concatenates the datasets. Returns one concatenated dataset
             df = self.data_clean()
+
+            # Drops any rows with missing values
+            df = df.dropna(subset= [self.data_transformation_config.CONTENT, self.data_transformation_config.LABEL])
             
             # Formats data in the concatenated dataset
             df[self.data_transformation_config.CONTENT] = df[self.data_transformation_config.CONTENT].apply(self.data_format)

@@ -2,10 +2,9 @@
 from entity.config_entity import ModelTrainerConfig
 
 # For Machine Learning
-from keras.models import Sequential
-from keras.models import Sequential
-from keras.layers import LSTM, Activation, Dense, Dropout, Input, Embedding, SpatialDropout1D
-from keras.optimizers import RMSprop
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Activation, Dense, Dropout, Input, Embedding, SpatialDropout1D
+from tensorflow.keras.optimizers import RMSprop
 from constants import *
 
 class ModelArchitecture:

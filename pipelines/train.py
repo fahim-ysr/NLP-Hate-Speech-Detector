@@ -84,7 +84,7 @@ class Training:
             raise CustomException(e, sys) from e        
 
 
-    def start_model_evaluation(self, model_trainer_artifacts: ModelTrainerArtifacts, data_transformation_artifats: DataTransformationArtifacts):
+    def start_model_evaluation(self, model_trainer_artifacts: ModelTrainerArtifacts, data_transformation_artifacts: DataTransformationArtifacts):
         """
 
         """
@@ -92,7 +92,7 @@ class Training:
         logging.info("Starting model evaluation operation...")
 
         try:
-            model_evaluation = ModelEvaluation(data_transformation_artifacts= data_transformation_artifats, model_evaluation_config= self.model_evaluation_config, model_trainer_artifacts= model_trainer_artifacts)
+            model_evaluation = ModelEvaluation(data_transformation_artifacts= data_transformation_artifacts, model_evaluation_config= self.model_evaluation_config, model_trainer_artifacts= model_trainer_artifacts)
 
             model_evaluation_artifacts = model_evaluation.initialize_model_evaluation()
 
@@ -139,7 +139,7 @@ class Training:
             # Trains the LSTM model
             model_trainer_artifacts= self.start_model_training(data_transformation_artifacts)
             # Evaluates and compares with the best model
-            model_evaluation_artifacts = self.start_model_evaluation(model_trainer_artifacts= model_trainer_artifacts, data_transformation_artifats= data_transformation_artifacts)
+            model_evaluation_artifacts = self.start_model_evaluation(model_trainer_artifacts= model_trainer_artifacts, data_transformation_artifacts= data_transformation_artifacts)
 
             if not (model_evaluation_artifacts.accept):
                 raise Exception()

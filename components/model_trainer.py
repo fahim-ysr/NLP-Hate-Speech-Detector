@@ -4,21 +4,19 @@ import sys
 
 # For handling and manipulating dataset
 import pandas as pd
-import seaborn as sns
 
 # For splitting dataset
 from sklearn.model_selection import train_test_split
 
 # For Deep Learning
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 import pickle
 
 from logger import logging
 from exception import CustomException
 from constants import *
 from entity.config_entity import ModelTrainerConfig
-from entity.artifact_entity import DataIngestionArtifacts
 from entity.artifact_entity import DataTransformationArtifacts
 from entity.artifact_entity import ModelTrainerArtifacts
 from components.model import ModelArchitecture
@@ -42,6 +40,12 @@ class ModelTrainer:
             logging.info("Carring out train-test-split operation...")
             logging.info("Reading data...")
             df = pd.read_csv(dataset, index_col = False)
+
+            # Drops rows with missing values
+            df = df.dropna(subset= [CONTENT, LABEL])
+
+            # Makes sure Content column is all strings
+            df[CONTENT] = df[CONTENT].astype(str)
             
             # Assigning descriptive and target features
             x = df[CONTENT]
@@ -50,7 +54,7 @@ class ModelTrainer:
             logging.info("Splitting data into descriptive and target feature")
             
             # Train-test-split feature
-            x_train,x_test,y_train,y_test = train_test_split(x,y, random_state = 23)
+            x_train,x_test,y_train,y_test = train_test_split(x,y, random_state = RANDOM_STATE)
 
             print(f"Length of train set: {len(x_train)}, {len(y_train)}")
             print(f"Length of test set: {len(x_test)}, {len(y_test)}")
@@ -139,8 +143,8 @@ class ModelTrainer:
             # Packaging all into an artifact object
             model_trainer_artifacts = ModelTrainerArtifacts(
                 trained_model_path= self.model_trainer_config.TRAINED_MODEL_PATH,
-                x_test_path = self.model_trainer_config.DF_TEST_DATA_PATH,
-                y_test_path = self.model_trainer_config.TF_TEST_DATA_PATH
+                df_test_path = self.model_trainer_config.DF_TEST_DATA_PATH,
+                tf_test_path = self.model_trainer_config.TF_TEST_DATA_PATH
                 )
             
             logging.info("Returning model artifacts...")
