@@ -31,7 +31,7 @@ class Prediction:
         self.data_transformation = DataTransformation(data_transformation_config= DataTransformationConfig, data_ingestion_artifacts= DataIngestionArtifacts)
 
         # Local path to store downloaded model
-        self.model_path = os.join("artifacts", "PredictionModel")
+        self.model_path = os.path.join("artifacts", "PredictionModel")
         self.gcloud = GCloudSync()
 
     

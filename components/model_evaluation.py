@@ -169,11 +169,11 @@ class ModelEvaluation:
                 if trained_model_accuracy > best_model_accuracy:
                     # Accepts Google Cloud Storage model if it has better accuracy than the newly trained model
                     accept = True
-                    logging.info("Trained model is not the best model...")
+                    logging.info("Trained model is the best model...")
 
                 else:
                     accept = False
-                    logging.info("Trained model is the best model...")
+                    logging.info("Trained model is not the best model...")
 
             # Gets the results into artifacts
             model_evaluation_artifacts = ModelEvaluationArtifacts(accept = accept)

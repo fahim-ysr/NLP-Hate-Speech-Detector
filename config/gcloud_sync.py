@@ -10,7 +10,7 @@ class GCloudSync:
         Syncs folder contents with the gcloud content (upload)
         """
 
-        command = f"gsutil cp {path}/{name} gs://{bucket}/"
+        command = f"gsutil cp '{path}/{name}' gs://{bucket}/"
         os.system(command)
 
 
