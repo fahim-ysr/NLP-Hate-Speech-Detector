@@ -95,8 +95,8 @@ class Prediction:
 
             print(f"Prediction: {pred}")
 
-            # Anything above the threshold 0.3 is considered hate speech
-            if pred > 0.3:
+            # Anything above the threshold is considered hate speech
+            if pred > THRESHOLD:
                 output = "Hate Speech"
                 print(output)
                 return output

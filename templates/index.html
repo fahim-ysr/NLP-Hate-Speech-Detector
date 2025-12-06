@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hate Speech Detector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #e94560;
+        --primary-glow: rgba(233, 69, 96, 0.4);
+        --secondary: #50c878;
+        --secondary-glow: rgba(80, 200, 120, 0.4);
+        --bg-dark: #0a0a0f;
+        --bg-card: rgba(255, 255, 255, 0.03);
+        --text-primary: #ffffff;
+        --text-secondary: #a0a0a0;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --error: #ff6b6b;
+        --success: #2ed573;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: var(--bg-dark);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+        color: var(--text-primary);
+        overflow-x: hidden;
+      }
+
+      /* Animated background */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            ellipse at 20% 20%,
+            rgba(233, 69, 96, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 80% 80%,
+            rgba(80, 200, 120, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 50% 50%,
+            rgba(99, 102, 241, 0.08) 0%,
+            transparent 60%
+          );
+        z-index: -1;
+        animation: backgroundPulse 15s ease-in-out infinite;
+      }
+
+      @keyframes backgroundPulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      /* Floating particles */
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: var(--primary);
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: float 20s infinite;
+      }
+
+      .particle:nth-child(1) {
+        left: 10%;
+        animation-delay: 0s;
+        animation-duration: 25s;
+      }
+      .particle:nth-child(2) {
+        left: 20%;
+        animation-delay: 2s;
+        animation-duration: 20s;
+      }
+      .particle:nth-child(3) {
+        left: 30%;
+        animation-delay: 4s;
+        animation-duration: 28s;
+      }
+      .particle:nth-child(4) {
+        left: 40%;
+        animation-delay: 1s;
+        animation-duration: 22s;
+      }
+      .particle:nth-child(5) {
+        left: 50%;
+        animation-delay: 3s;
+        animation-duration: 24s;
+      }
+      .particle:nth-child(6) {
+        left: 60%;
+        animation-delay: 5s;
+        animation-duration: 26s;
+      }
+      .particle:nth-child(7) {
+        left: 70%;
+        animation-delay: 2s;
+        animation-duration: 21s;
+      }
+      .particle:nth-child(8) {
+        left: 80%;
+        animation-delay: 4s;
+        animation-duration: 23s;
+      }
+      .particle:nth-child(9) {
+        left: 90%;
+        animation-delay: 1s;
+        animation-duration: 27s;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) scale(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.3;
+        }
+        90% {
+          opacity: 0.3;
+        }
+        100% {
+          transform: translateY(-100vh) scale(1);
+          opacity: 0;
+        }
+      }
+
+      .container {
+        max-width: 750px;
+        width: 100%;
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Header with glow */
+      .header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        background: linear-gradient(
+          135deg,
+          #e94560 0%,
+          #ff6b6b 50%,
+          #ff8e53 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 80px var(--primary-glow);
+        animation: titleGlow 3s ease-in-out infinite;
+        margin-bottom: 15px;
+      }
+
+      @keyframes titleGlow {
+        0%,
+        100% {
+          filter: brightness(1);
+        }
+        50% {
+          filter: brightness(1.2);
+        }
+      }
+
+      .subtitle {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+      }
+
+      /* Glowing tabs */
+      .tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 0;
+      }
+
+      .tab {
+        padding: 14px 28px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-bottom: none;
+        border-radius: 16px 16px 0 0;
+        cursor: pointer;
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .tab::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--primary), #ff6b6b);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: -1;
+      }
+
+      .tab:hover {
+        color: var(--text-primary);
+        transform: translateY(-2px);
+      }
+
+      .tab.active {
+        color: var(--text-primary);
+        border-color: var(--primary);
+        box-shadow: 0 -5px 30px var(--primary-glow);
+      }
+
+      .tab.active::before {
+        opacity: 0.15;
+      }
+
+      /* Glass card effect */
+      .card {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.05) 0%,
+          rgba(255, 255, 255, 0.02) 100%
+        );
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 0 24px 24px 24px;
+        padding: 45px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.03),
+          transparent
+        );
+        animation: shimmer 8s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          left: -100%;
+        }
+        50%,
+        100% {
+          left: 100%;
+        }
+      }
+
+      .tab-content {
+        display: none;
+        animation: tabFadeIn 0.5s ease-out;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      @keyframes tabFadeIn {
+        from {
+          opacity: 0;
+          transform: translateX(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* Form elements */
+      .input-group {
+        margin-bottom: 25px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 12px;
+        font-weight: 500;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 18px;
+        border: 2px solid var(--border-color);
+        border-radius: 16px;
+        background: rgba(0, 0, 0, 0.3);
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-family: inherit;
+        resize: vertical;
+        min-height: 140px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px var(--primary-glow), 0 0 40px var(--primary-glow);
+      }
+
+      textarea::placeholder {
+        color: #555;
+      }
+
+      /* Emoji tip box */
+      .emoji-support {
+        margin-top: 15px;
+        margin-bottom: 25px;
+        padding: 15px 18px;
+        background: linear-gradient(
+          135deg,
+          rgba(233, 69, 96, 0.1),
+          rgba(233, 69, 96, 0.05)
+        );
+        border: 1px solid rgba(233, 69, 96, 0.2);
+        border-radius: 12px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .emoji-support .icon {
+        font-size: 1.4rem;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      /* Glowing buttons */
+      .btn {
+        width: 100%;
+        padding: 18px 35px;
+        border: none;
+        border-radius: 14px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        font-family: inherit;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .btn:active::before {
+        width: 400px;
+        height: 400px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+        color: #fff;
+        box-shadow: 0 10px 40px var(--primary-glow);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 50px var(--primary-glow),
+          0 0 60px var(--primary-glow);
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #3d9970 0%, #50c878 100%);
+        color: #fff;
+        box-shadow: 0 10px 40px var(--secondary-glow);
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 50px var(--secondary-glow),
+          0 0 60px var(--secondary-glow);
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
+      }
+
+      /* Loading spinner */
+      .loading {
+        display: none;
+        text-align: center;
+        margin-top: 30px;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        position: relative;
+      }
+
+      .spinner::before {
+        content: "";
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        width: 100%;
+        height: 100%;
+        border: 3px solid transparent;
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .spinner.secondary::before {
+        border-top-color: var(--secondary);
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      /* Result containers with glow */
+      .result-container {
+        margin-top: 35px;
+        padding: 30px;
+        border-radius: 16px;
+        text-align: center;
+        display: none;
+        animation: resultPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+
+      @keyframes resultPop {
+        from {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .result-hate {
+        background: linear-gradient(
+          135deg,
+          rgba(233, 69, 96, 0.15),
+          rgba(233, 69, 96, 0.05)
+        );
+        border: 2px solid var(--primary);
+        box-shadow: 0 0 40px var(--primary-glow),
+          inset 0 0 40px rgba(233, 69, 96, 0.1);
+      }
+
+      .result-safe {
+        background: linear-gradient(
+          135deg,
+          rgba(46, 213, 115, 0.15),
+          rgba(46, 213, 115, 0.05)
+        );
+        border: 2px solid var(--success);
+        box-shadow: 0 0 40px rgba(46, 213, 115, 0.3),
+          inset 0 0 40px rgba(46, 213, 115, 0.1);
+      }
+
+      .result-error {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 165, 0, 0.15),
+          rgba(255, 165, 0, 0.05)
+        );
+        border: 2px solid #ffa500;
+        box-shadow: 0 0 40px rgba(255, 165, 0, 0.3),
+          inset 0 0 40px rgba(255, 165, 0, 0.1);
+      }
+
+      .result-success {
+        background: linear-gradient(
+          135deg,
+          rgba(46, 213, 115, 0.15),
+          rgba(46, 213, 115, 0.05)
+        );
+        border: 2px solid var(--success);
+        box-shadow: 0 0 40px rgba(46, 213, 115, 0.3),
+          inset 0 0 40px rgba(46, 213, 115, 0.1);
+      }
+
+      .result-icon {
+        font-size: 4rem;
+        margin-bottom: 15px;
+        animation: iconPulse 2s infinite;
+      }
+
+      @keyframes iconPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .result-text {
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .result-hate .result-text {
+        color: var(--error);
+      }
+      .result-safe .result-text {
+        color: var(--success);
+      }
+      .result-error .result-text {
+        color: #ffa500;
+      }
+      .result-success .result-text {
+        color: var(--success);
+      }
+
+      .result-message {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+      }
+
+      /* Training card styles */
+      .card-title {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .train-description {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        line-height: 1.7;
+      }
+
+      .train-description li {
+        margin: 10px 0;
+        padding-left: 5px;
+      }
+
+      .warning-box {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 165, 0, 0.1),
+          rgba(255, 165, 0, 0.05)
+        );
+        border: 1px solid rgba(255, 165, 0, 0.3);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-bottom: 25px;
+        font-size: 0.9rem;
+        color: #ffa500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .warning-box .icon {
+        font-size: 1.3rem;
+        animation: shake 3s infinite;
+      }
+
+      @keyframes shake {
+        0%,
+        90%,
+        100% {
+          transform: rotate(0);
+        }
+        92%,
+        96% {
+          transform: rotate(-5deg);
+        }
+        94%,
+        98% {
+          transform: rotate(5deg);
+        }
+      }
+
+      /* Info cards */
+      .info-section {
+        margin-top: 50px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+      }
+
+      .info-card {
+        background: var(--bg-card);
+        padding: 25px;
+        border-radius: 16px;
+        text-align: center;
+        border: 1px solid var(--border-color);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .info-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, var(--primary-glow), transparent);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .info-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--primary);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .info-card:hover::before {
+        opacity: 0.1;
+      }
+
+      .info-card h3 {
+        color: var(--primary);
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        position: relative;
+      }
+
+      .info-card p {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        position: relative;
+      }
+
+      /* Footer */
+      .footer {
+        margin-top: 60px;
+        text-align: center;
+        color: #555;
+        font-size: 0.9rem;
+      }
+
+      .footer a {
+        color: var(--primary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .footer a::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: width 0.3s ease;
+      }
+
+      .footer a:hover::after {
+        width: 100%;
+      }
+
+      .footer a:hover {
+        text-shadow: 0 0 20px var(--primary-glow);
+      }
+
+      /* Responsive */
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2.2rem;
+        }
+
+        .card {
+          padding: 30px 25px;
+        }
+
+        .tabs {
+          flex-direction: column;
+        }
+
+        .tab {
+          border-radius: 12px;
+          border: 1px solid var(--border-color);
+        }
+
+        .card {
+          border-radius: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Floating particles background -->
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <h1>🛡️ Hate Speech Detector</h1>
+        <p class="subtitle">
+          NLP-based text analysis using LSTM Neural Networks
+        </p>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="tabs">
+        <div class="tab active" data-tab="predict">🔍 Analyze Text</div>
+        <div class="tab" data-tab="train">🚀 Train Model</div>
+      </div>
+
+      <!-- Predict Tab Content -->
+      <div id="predict-tab" class="tab-content active">
+        <div class="card">
+          <form id="predictForm">
+            <div class="input-group">
+              <label for="textInput">Enter text to analyze:</label>
+              <textarea
+                id="textInput"
+                name="text"
+                placeholder="Type or paste any text here... Emojis are supported! 😊"
+                required
+              ></textarea>
+            </div>
+
+            <div class="emoji-support">
+              <span class="icon">💡</span>
+              <span
+                >This model supports emoji detection! Try: "I hate you 😡" or
+                "Have a great day 😊"</span
+              >
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="predictBtn">
+              Analyze Text
+            </button>
+          </form>
+
+          <div class="loading" id="predictLoading">
+            <div class="spinner"></div>
+            <p>Analyzing your text...</p>
+          </div>
+
+          <div class="result-container" id="predictResult">
+            <div class="result-icon" id="predictIcon"></div>
+            <div class="result-text" id="predictText"></div>
+            <div class="result-message" id="predictMessage"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Train Tab Content -->
+      <div id="train-tab" class="tab-content">
+        <div class="card">
+          <div class="card-title">🧠 Train the LSTM Model</div>
+
+          <p class="train-description">
+            This will execute the training pipeline which includes:
+          </p>
+          <ul
+            class="train-description"
+            style="margin-left: 20px; margin-bottom: 25px"
+          >
+            <li>📥 Downloading datasets from Google Cloud Storage</li>
+            <li>🧹 Cleaning and preprocessing the text data</li>
+            <li>🏋️ Training the LSTM neural network</li>
+            <li>📊 Evaluating against the current best model</li>
+            <li>☁️ Uploading to GCloud if performance improved</li>
+          </ul>
+
+          <div class="warning-box">
+            <span class="icon">⚠️</span>
+            <span
+              >Warning: Training takes a while to complete. Please be patient
+              and do not close this page!</span
+            >
+          </div>
+
+          <button type="button" class="btn btn-secondary" id="trainBtn">
+            Start Training
+          </button>
+
+          <div class="loading" id="trainLoading">
+            <div class="spinner secondary"></div>
+            <p>Training in progress... This may take a few minutes.</p>
+          </div>
+
+          <div class="result-container" id="trainResult">
+            <div class="result-icon" id="trainIcon"></div>
+            <div class="result-text" id="trainText"></div>
+            <div class="result-message" id="trainMessage"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <div class="info-card">
+          <h3>🧠 LSTM Model</h3>
+          <p>
+            Uses Long Short-Term Memory neural network to understand context and
+            sequence
+          </p>
+        </div>
+        <div class="info-card">
+          <h3>📊 730K+ Samples</h3>
+          <p>
+            Trained on balanced dataset with text and emoji-based hate speech
+          </p>
+        </div>
+        <div class="info-card">
+          <h3>😀 Emoji Support</h3>
+          <p>Detects hate speech hidden in emojis and unicode symbols</p>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>
+          Built with FastAPI & TensorFlow |
+          <a href="/docs">API Documentation</a>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Tab switching with animation
+      const tabs = document.querySelectorAll(".tab");
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          tabs.forEach((t) => t.classList.remove("active"));
+          document
+            .querySelectorAll(".tab-content")
+            .forEach((c) => c.classList.remove("active"));
+
+          tab.classList.add("active");
+          const tabId = tab.getAttribute("data-tab");
+          const content = document.getElementById(tabId + "-tab");
+          content.classList.add("active");
+
+          // Re-trigger animation
+          content.style.animation = "none";
+          content.offsetHeight; // Trigger reflow
+          content.style.animation = null;
+        });
+      });
+
+      // Predict form handling
+      const predictForm = document.getElementById("predictForm");
+      const textInput = document.getElementById("textInput");
+      const predictBtn = document.getElementById("predictBtn");
+      const predictLoading = document.getElementById("predictLoading");
+      const predictResult = document.getElementById("predictResult");
+      const predictIcon = document.getElementById("predictIcon");
+      const predictText = document.getElementById("predictText");
+      const predictMessage = document.getElementById("predictMessage");
+
+      predictForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const text = textInput.value.trim();
+        if (!text) return;
+
+        predictBtn.disabled = true;
+        predictLoading.style.display = "block";
+        predictResult.style.display = "none";
+
+        try {
+          const response = await fetch(
+            `/predict?user_input=${encodeURIComponent(text)}`,
+            { method: "POST" }
+          );
+
+          const data = await response.json();
+
+          predictLoading.style.display = "none";
+          predictBtn.disabled = false;
+          predictResult.style.display = "block";
+          predictMessage.textContent = "";
+
+          // Re-trigger animation
+          predictResult.style.animation = "none";
+          predictResult.offsetHeight;
+          predictResult.style.animation = null;
+
+          if (data.status === "success") {
+            if (data.prediction.includes("Hate")) {
+              predictResult.className = "result-container result-hate";
+              predictIcon.textContent = "🚨";
+              predictText.textContent = "Hate Speech Detected";
+            } else {
+              predictResult.className = "result-container result-safe";
+              predictIcon.textContent = "✅";
+              predictText.textContent = "No Hate Speech Detected";
+            }
+          } else {
+            predictResult.className = "result-container result-error";
+            predictIcon.textContent = "⚠️";
+            predictText.textContent = "Error";
+            predictMessage.textContent = data.message;
+          }
+        } catch (error) {
+          predictLoading.style.display = "none";
+          predictBtn.disabled = false;
+          predictResult.style.display = "block";
+          predictResult.className = "result-container result-error";
+          predictIcon.textContent = "❌";
+          predictText.textContent = "Connection Error";
+          predictMessage.textContent =
+            "Could not connect to the server. Please try again.";
+          console.error(error);
+        }
+      });
+
+      // Train button handling
+      const trainBtn = document.getElementById("trainBtn");
+      const trainLoading = document.getElementById("trainLoading");
+      const trainResult = document.getElementById("trainResult");
+      const trainIcon = document.getElementById("trainIcon");
+      const trainText = document.getElementById("trainText");
+      const trainMessage = document.getElementById("trainMessage");
+
+      trainBtn.addEventListener("click", async () => {
+        if (
+          !confirm(
+            "Are you sure you want to start training? This may take several minutes."
+          )
+        ) {
+          return;
+        }
+
+        trainBtn.disabled = true;
+        trainLoading.style.display = "block";
+        trainResult.style.display = "none";
+
+        try {
+          const response = await fetch("/train", { method: "POST" });
+          const data = await response.json();
+
+          trainLoading.style.display = "none";
+          trainBtn.disabled = false;
+          trainResult.style.display = "block";
+
+          // Re-trigger animation
+          trainResult.style.animation = "none";
+          trainResult.offsetHeight;
+          trainResult.style.animation = null;
+
+          if (data.status === "success") {
+            trainResult.className = "result-container result-success";
+            trainIcon.textContent = "🎉";
+            trainText.textContent = "Training Complete!";
+            trainMessage.textContent = data.message;
+          } else if (data.status === "warning") {
+            trainResult.className = "result-container result-error";
+            trainIcon.textContent = "ℹ️";
+            trainText.textContent = "Training Complete";
+            trainMessage.textContent = data.message;
+          } else {
+            trainResult.className = "result-container result-error";
+            trainIcon.textContent = "❌";
+            trainText.textContent = "Training Failed";
+            trainMessage.textContent = data.message;
+          }
+        } catch (error) {
+          trainLoading.style.display = "none";
+          trainBtn.disabled = false;
+          trainResult.style.display = "block";
+          trainResult.className = "result-container result-error";
+          trainIcon.textContent = "❌";
+          trainText.textContent = "Connection Error";
+          trainMessage.textContent =
+            "Could not connect to the server. Please try again.";
+          console.error(error);
+        }
+      });
+    </script>
+  </body>
+</html>

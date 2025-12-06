@@ -39,6 +39,7 @@ RANDOM_STATE = 23
 EPOCH = 1
 BATCH_SIZE = 128
 SPLIT_SIZE = 0.2
+THRESHOLD = 0.5
 
 #Model Evaluation Constants
 MODEL_EVALUATION_ARTIFACTS_DIR = "ModelEvaluationArtifacts"

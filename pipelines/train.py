@@ -142,12 +142,14 @@ class Training:
             model_evaluation_artifacts = self.start_model_evaluation(model_trainer_artifacts= model_trainer_artifacts, data_transformation_artifacts= data_transformation_artifacts)
 
             if not (model_evaluation_artifacts.accept):
-                raise Exception()
+                logging.info("Trained model did not outperform the existing model. Skipping upload...")
+                return {"status": "not_improved", "message": "Training completed, but the new model did not outperform the existing one. Model was not updated."}
             
             model_push_artifacts = self.start_model_push()
 
 
             logging.info("Training pipeline ended.")
+            return {"status": "success", "message": "Training completed successfully! New model has been uploaded."}
 
         # Exception handling
         except Exception as e:
