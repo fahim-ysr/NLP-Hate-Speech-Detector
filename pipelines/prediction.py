@@ -71,8 +71,6 @@ class Prediction:
 
         try:
 
-            # Loads the trained LSTM model from local storage
-            best_model_path = self.fetch_model_from_gcloud()
             load_model = keras.models.load_model(best_model_path)
 
             # Loads the tokenizer used during training (for maintaining consistent encoding)
@@ -80,29 +78,36 @@ class Prediction:
                 load_tokenizer = pickle.load(pickle_file)
 
             # Cleans the input text the same way training data was cleaned
-            text = self.data_transformation.data_format(text)
-            text = [text]
-            print(text)
+            cleaned_text = self.data_transformation.data_format(text)
+
+            print(f"Original: {text}")
+            print(f"Cleaned: {cleaned_text}")
+
+            text_list = [cleaned_text]
 
             # Converts words to numbers using tokenizer
-            sequence = load_tokenizer.texts_to_sequences(text)
+            sequence = load_tokenizer.texts_to_sequences(text_list)
             padded = pad_sequences(sequence, maxlen= MAX_LENGTH)
-            print(sequence)
+            print(f"Sequence: {sequence}")
 
             # Runs prediction
             pred = load_model.predict(padded)
-            pred
 
-            print(f"Prediction: {pred}")
+            # Extracting the prediction valie
+            pred_val = float(pred[0][0])
+
+            print(f"Prediction probability: {pred_val:.4f}")
+            print(f"Threshold: {THRESHOLD}")
 
             # Anything above the threshold is considered hate speech
-            if pred > THRESHOLD:
+            if pred_val > THRESHOLD:
                 output = "Hate Speech"
-                print(output)
+                print(f"Result: {output}")
                 return output
 
             else:
                 output = "No Hate"
+                print(f"Result: {output}")
                 return output
 
 
@@ -118,6 +123,7 @@ class Prediction:
         try:
             # Gets the best model from cloud storage
             best_model_path = self.fetch_model_from_gcloud()
+
             # Runs prediction on user input
             predicted_text = self.predict(best_model_path, text)
             

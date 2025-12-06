@@ -99,10 +99,12 @@ class ModelEvaluation:
             print(f"__________________{x_test.shape}__________________")
             print(f"__________________{y_test.shape}__________________")
             
-            # Evaluates the model based on its accuracy
-            accuracy = load_model.evaluate(test_sequences_matrix, y_test)
+            # Evaluates the model
+            evaluation_result = load_model.evaluate(test_sequences_matrix, y_test)
+            loss = evaluation_result[0]
+            accuracy = evaluation_result[1]
 
-            logging.info(f"Test accuracy: {accuracy}")
+            logging.info(f"Test accuracy: {accuracy}, Test loss: {loss}")
 
             # Makes prediction on test data
             LSTM_pred = load_model.predict(test_sequences_matrix)
@@ -110,7 +112,7 @@ class ModelEvaluation:
 
             # Converts probabilities to binary predictions
             for pred in LSTM_pred:
-                if pred[0] < 0.5:
+                if pred[0] < THRESHOLD:
                     res.append(0)
                 else:
                     res.append(1)

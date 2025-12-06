@@ -1009,7 +1009,8 @@
           predictResult.style.animation = null;
 
           if (data.status === "success") {
-            if (data.prediction.includes("Hate")) {
+            // Fixed: Check for exact match "Hate Speech" instead of includes("Hate")
+            if (data.prediction === "Hate Speech") {
               predictResult.className = "result-container result-hate";
               predictIcon.textContent = "🚨";
               predictText.textContent = "Hate Speech Detected";

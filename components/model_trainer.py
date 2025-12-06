@@ -20,6 +20,7 @@ from entity.config_entity import ModelTrainerConfig
 from entity.artifact_entity import DataTransformationArtifacts
 from entity.artifact_entity import ModelTrainerArtifacts
 from components.model import ModelArchitecture
+from optimizer.nvidia_optimizer import optimize_gpu
 
 class ModelTrainer:
     """
@@ -30,6 +31,9 @@ class ModelTrainer:
 
         self.data_transformation_artifacts = data_transformation_artifacts
         self.model_trainer_config = model_trainer_config
+        
+        # Sets up GPU optimization before training
+        optimize_gpu()
 
     def data_splitting(self, dataset):
         """
@@ -119,12 +123,20 @@ class ModelTrainer:
 
             # Training the model
             logging.info(f"Starting model training...")
-            model.fit(sequences_matrix, y_train, batch_size= self.model_trainer_config.BATCH_SIZE, epochs= self.model_trainer_config.EPOCH, validation_batch_size= self.model_trainer_config.SPLIT_SIZE)
+
+            model.fit(
+                sequences_matrix,
+                y_train,
+                batch_size= self.model_trainer_config.BATCH_SIZE,
+                epochs= self.model_trainer_config.EPOCH,
+                validation_split= self.model_trainer_config.SPLIT_SIZE
+                )
+            
             logging.info(f"Completed model training.")
 
             # Saving the tokenizer (For using it to convert new text into same number format)
-            with open('tokenizer.pickle', 'wb') as handle:
-                pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
+            with open('tokenizer.pickle', 'wb') as pickle_file:
+                pickle.dump(tokenizer, pickle_file, protocol=pickle.HIGHEST_PROTOCOL)
 
             # Creating output directory
             os.makedirs(self.model_trainer_config.TRAINED_MODEL_DIR, exist_ok= True)

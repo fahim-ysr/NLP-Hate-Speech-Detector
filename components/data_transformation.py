@@ -25,6 +25,8 @@ class DataTransformation:
     def __init__(self, data_transformation_config: DataTransformationConfig, data_ingestion_artifacts: DataIngestionArtifacts):
         self.data_transformation_config = data_transformation_config
         self.data_ingestion_artifacts = data_ingestion_artifacts
+        self.stemmer = nltk.SnowballStemmer("english")
+        self.stopword = set(stopwords.words('english'))
 
 
     def data_clean(self):
@@ -67,10 +69,6 @@ class DataTransformation:
 
         try:
 
-            # Initializing stemmers and stopwords on the data
-            stemmer = nltk.SnowballStemmer("english")
-            stopword = set(stopwords.words('english'))
-
             # Formatting data
             text = str(text).lower()
             text = re.sub(r'\[.*?\]', '', text)
@@ -81,11 +79,11 @@ class DataTransformation:
             text = re.sub(r'\w*\d\w*', '', text)
 
             # Filters out common words that do not add meaning (for e.g. articles)
-            text = [word for word in text.split(' ') if word not in stopword]
+            text = [word for word in text.split(' ') if word not in self.stopword]
             text=" ".join(text)
 
             # Applying stemmers to reduces words to root form (for e.g. Running -> Run)
-            text = [stemmer.stem(word) for word in text.split(' ')]
+            text = [self.stemmer.stem(word) for word in text.split(' ')]
             text=" ".join(text)
 
             logging.info("Completed data formatting.")
@@ -112,8 +110,8 @@ class DataTransformation:
             # Drops any rows with missing values
             df = df.dropna(subset= [self.data_transformation_config.CONTENT, self.data_transformation_config.LABEL])
             
-            # Formats data in the concatenated dataset
-            df[self.data_transformation_config.CONTENT] = df[self.data_transformation_config.CONTENT].apply(self.data_format)
+            # # Formats data in the concatenated dataset
+            # df[self.data_transformation_config.CONTENT] = df[self.data_transformation_config.CONTENT].apply(lambda x:self.data_format(x))
 
             # Makes a directory and saves the concatenated dataset as CSV
             os.makedirs(self.data_transformation_config.DATA_TRANSFORMATION_ARTIFACTS_DIR, exist_ok= True)
