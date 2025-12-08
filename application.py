@@ -76,7 +76,14 @@ async def predict(user_input):
         
         prediction = Prediction()
         result = prediction.execute_pipeline(user_input)
-        return JSONResponse(content={"status": "success", "prediction": result})
+        return JSONResponse(content={
+            "status": "success",
+            "prediction": result["prediction"],
+            "probability": result["probability"],
+            "threshold": result["threshold"],
+            "preprocessing_steps": result["preprocessing_steps"],
+            "token_sequence": result["sequence"]
+            })
 
     except Exception as e:
 

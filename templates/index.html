@@ -806,6 +806,841 @@
           border-radius: 24px;
         }
       }
+
+      /* Preprocessing steps visualization */
+      .preprocessing-container {
+        margin-top: 25px;
+        padding: 25px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 16px;
+        border: 1px solid var(--border-color);
+        display: none;
+      }
+
+      .preprocessing-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .preprocessing-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        border-left: 3px solid var(--primary);
+        animation: stepFadeIn 0.3s ease-out forwards;
+        opacity: 0;
+      }
+
+      @keyframes stepFadeIn {
+        from {
+          opacity: 0;
+          transform: translateX(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .step-number {
+        background: linear-gradient(135deg, var(--primary), #ff6b6b);
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-label {
+        font-size: 0.85rem;
+        color: var(--primary);
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+
+      .step-text {
+        font-size: 0.95rem;
+        color: var(--text-primary);
+        word-break: break-word;
+        font-family: "Courier New", monospace;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 8px 12px;
+        border-radius: 8px;
+      }
+
+      .prediction-details {
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .detail-item {
+        text-align: center;
+      }
+
+      .detail-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-bottom: 5px;
+      }
+
+      .detail-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .detail-value.hate {
+        color: var(--error);
+      }
+
+      .detail-value.safe {
+        color: var(--success);
+      }
+
+      /* How It Works Page Styles */
+      .pipeline-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .pipeline-step {
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 16px;
+        padding: 25px;
+        border-left: 4px solid var(--primary);
+        transition: all 0.3s ease;
+      }
+
+      .pipeline-step:hover {
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateX(5px);
+      }
+
+      .pipeline-step:nth-child(2) {
+        border-left-color: #ff9f43;
+      }
+      .pipeline-step:nth-child(3) {
+        border-left-color: #54a0ff;
+      }
+      .pipeline-step:nth-child(4) {
+        border-left-color: #5f27cd;
+      }
+      .pipeline-step:nth-child(5) {
+        border-left-color: #00d2d3;
+      }
+      .pipeline-step:nth-child(6) {
+        border-left-color: var(--success);
+      }
+
+      .step-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .step-icon {
+        font-size: 2rem;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(233, 69, 96, 0.1);
+        border-radius: 12px;
+      }
+
+      .pipeline-step:nth-child(2) .step-icon {
+        background: rgba(255, 159, 67, 0.1);
+      }
+      .pipeline-step:nth-child(3) .step-icon {
+        background: rgba(84, 160, 255, 0.1);
+      }
+      .pipeline-step:nth-child(4) .step-icon {
+        background: rgba(95, 39, 205, 0.1);
+      }
+      .pipeline-step:nth-child(5) .step-icon {
+        background: rgba(0, 210, 211, 0.1);
+      }
+      .pipeline-step:nth-child(6) .step-icon {
+        background: rgba(46, 213, 115, 0.1);
+      }
+
+      .step-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .step-subtitle {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        margin-top: 4px;
+      }
+
+      .step-content {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+
+      .step-content ul {
+        margin: 10px 0 10px 20px;
+      }
+
+      .step-content li {
+        margin: 8px 0;
+      }
+
+      .code-example {
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        font-family: "Courier New", monospace;
+        font-size: 0.85rem;
+        overflow-x: auto;
+        border: 1px solid var(--border-color);
+      }
+
+      .code-example .label {
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .code-example .arrow {
+        color: var(--text-secondary);
+        margin: 0 10px;
+      }
+
+      .code-example .value {
+        color: var(--success);
+      }
+
+      .architecture-diagram {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 16px;
+        padding: 25px;
+        margin: 20px 0;
+        text-align: center;
+        border: 1px solid var(--border-color);
+      }
+
+      .architecture-diagram h4 {
+        color: var(--text-primary);
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+      }
+
+      .architecture-flow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .arch-layer {
+        background: linear-gradient(
+          135deg,
+          rgba(233, 69, 96, 0.2),
+          rgba(233, 69, 96, 0.1)
+        );
+        border: 1px solid var(--primary);
+        border-radius: 10px;
+        padding: 12px 25px;
+        min-width: 250px;
+        text-align: center;
+      }
+
+      .arch-layer.embedding {
+        border-color: #ff9f43;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 159, 67, 0.2),
+          rgba(255, 159, 67, 0.1)
+        );
+      }
+      .arch-layer.dropout {
+        border-color: #54a0ff;
+        background: linear-gradient(
+          135deg,
+          rgba(84, 160, 255, 0.2),
+          rgba(84, 160, 255, 0.1)
+        );
+      }
+      .arch-layer.lstm {
+        border-color: #5f27cd;
+        background: linear-gradient(
+          135deg,
+          rgba(95, 39, 205, 0.2),
+          rgba(95, 39, 205, 0.1)
+        );
+      }
+      .arch-layer.dense {
+        border-color: var(--success);
+        background: linear-gradient(
+          135deg,
+          rgba(46, 213, 115, 0.2),
+          rgba(46, 213, 115, 0.1)
+        );
+      }
+
+      .arch-layer-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+      }
+
+      .arch-layer-desc {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-top: 4px;
+      }
+
+      .arch-arrow {
+        color: var(--text-secondary);
+        font-size: 1.5rem;
+      }
+
+      .constants-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .constant-card {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        border: 1px solid var(--border-color);
+      }
+
+      .constant-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 8px;
+      }
+
+      .constant-label {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .summary-box {
+        background: linear-gradient(
+          135deg,
+          rgba(46, 213, 115, 0.1),
+          rgba(46, 213, 115, 0.05)
+        );
+        border: 1px solid rgba(46, 213, 115, 0.3);
+        border-radius: 16px;
+        padding: 25px;
+        margin-top: 20px;
+      }
+
+      .summary-box h3 {
+        color: var(--success);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .summary-flow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 0.95rem;
+      }
+
+      .summary-flow span {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 8px 15px;
+        border-radius: 20px;
+        color: var(--text-primary);
+      }
+
+      .summary-flow .arrow {
+        color: var(--success);
+        font-weight: bold;
+      }
+
+      /* Live Demo Tab Styles */
+      .demo-container {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .demo-input-section {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 16px;
+        padding: 25px;
+        border: 1px solid var(--border-color);
+      }
+
+      .demo-input-section label {
+        margin-bottom: 15px;
+        font-size: 1rem;
+      }
+
+      .demo-input-section textarea {
+        min-height: 80px;
+        margin-bottom: 15px;
+      }
+
+      .demo-examples {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .demo-example-btn {
+        padding: 8px 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .demo-example-btn:hover {
+        background: rgba(233, 69, 96, 0.2);
+        border-color: var(--primary);
+        color: var(--text-primary);
+      }
+
+      .pipeline-visualization {
+        display: none;
+      }
+
+      .pipeline-visualization.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .pipeline-stage {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 16px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+      }
+
+      .stage-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .stage-number {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--primary), #ff6b6b);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: white;
+      }
+
+      .stage-number.stage-2 {
+        background: linear-gradient(135deg, #ff9f43, #ffc048);
+      }
+      .stage-number.stage-3 {
+        background: linear-gradient(135deg, #54a0ff, #74b9ff);
+      }
+      .stage-number.stage-4 {
+        background: linear-gradient(135deg, #5f27cd, #a55eea);
+      }
+      .stage-number.stage-5 {
+        background: linear-gradient(135deg, #00d2d3, #01a3a4);
+      }
+      .stage-number.stage-6 {
+        background: linear-gradient(135deg, #2ed573, #7bed9f);
+      }
+
+      .stage-info h3 {
+        color: var(--text-primary);
+        font-size: 1.1rem;
+        margin-bottom: 4px;
+      }
+
+      .stage-info p {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+      }
+
+      .stage-content {
+        padding: 20px;
+      }
+
+      .stage-arrow {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        color: var(--text-secondary);
+        font-size: 1.5rem;
+        animation: arrowPulse 1.5s infinite;
+      }
+
+      @keyframes arrowPulse {
+        0%,
+        100% {
+          opacity: 0.5;
+          transform: translateY(0);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(5px);
+        }
+      }
+
+      .text-display {
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 12px;
+        padding: 15px 20px;
+        font-family: "Courier New", monospace;
+        font-size: 1rem;
+        color: var(--text-primary);
+        word-break: break-word;
+        border: 1px solid var(--border-color);
+      }
+
+      .text-display.original {
+        border-left: 4px solid var(--primary);
+      }
+
+      .text-display.processed {
+        border-left: 4px solid var(--success);
+      }
+
+      .preprocessing-detail {
+        margin-top: 15px;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 10px;
+      }
+
+      .preprocessing-detail h4 {
+        color: var(--primary);
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+
+      .change-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .change-item {
+        background: rgba(233, 69, 96, 0.1);
+        border: 1px solid rgba(233, 69, 96, 0.3);
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+
+      .change-item.removed {
+        background: rgba(255, 107, 107, 0.1);
+        border-color: rgba(255, 107, 107, 0.3);
+        text-decoration: line-through;
+        color: var(--error);
+      }
+
+      .change-item.kept {
+        background: rgba(46, 213, 115, 0.1);
+        border-color: rgba(46, 213, 115, 0.3);
+        color: var(--success);
+      }
+
+      .token-display {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .token-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(84, 160, 255, 0.1);
+        border: 1px solid rgba(84, 160, 255, 0.3);
+        border-radius: 10px;
+        padding: 10px 15px;
+        min-width: 60px;
+      }
+
+      .token-word {
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        margin-bottom: 5px;
+      }
+
+      .token-id {
+        font-size: 0.75rem;
+        color: #54a0ff;
+        font-weight: 600;
+      }
+
+      .sequence-display {
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 12px;
+        padding: 15px 20px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9rem;
+        color: #54a0ff;
+        overflow-x: auto;
+        border: 1px solid rgba(84, 160, 255, 0.3);
+      }
+
+      .padding-info {
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .padding-stat {
+        text-align: center;
+      }
+
+      .padding-stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #54a0ff;
+      }
+
+      .padding-stat-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+      }
+
+      .model-visual {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 20px;
+      }
+
+      .layer-box {
+        width: 100%;
+        max-width: 300px;
+        padding: 12px 20px;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        animation: layerGlow 2s ease-in-out infinite;
+      }
+
+      .layer-box.embedding {
+        background: rgba(255, 159, 67, 0.2);
+        border: 1px solid #ff9f43;
+      }
+      .layer-box.dropout {
+        background: rgba(84, 160, 255, 0.2);
+        border: 1px solid #54a0ff;
+      }
+      .layer-box.lstm {
+        background: rgba(95, 39, 205, 0.2);
+        border: 1px solid #5f27cd;
+        animation-delay: 0.5s;
+      }
+      .layer-box.dense {
+        background: rgba(46, 213, 115, 0.2);
+        border: 1px solid #2ed573;
+        animation-delay: 1s;
+      }
+
+      @keyframes layerGlow {
+        0%,
+        100% {
+          box-shadow: none;
+        }
+        50% {
+          box-shadow: 0 0 20px currentColor;
+        }
+      }
+
+      .layer-arrow {
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+      }
+
+      .final-result {
+        text-align: center;
+        padding: 30px;
+        border-radius: 16px;
+        animation: resultGlow 2s ease-in-out infinite;
+      }
+
+      .final-result.hate {
+        background: linear-gradient(
+          135deg,
+          rgba(233, 69, 96, 0.2),
+          rgba(233, 69, 96, 0.1)
+        );
+        border: 2px solid var(--primary);
+      }
+
+      .final-result.safe {
+        background: linear-gradient(
+          135deg,
+          rgba(46, 213, 115, 0.2),
+          rgba(46, 213, 115, 0.1)
+        );
+        border: 2px solid var(--success);
+      }
+
+      @keyframes resultGlow {
+        0%,
+        100% {
+          box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(233, 69, 96, 0.5);
+        }
+      }
+
+      .final-result.safe {
+        animation-name: resultGlowSafe;
+      }
+
+      @keyframes resultGlowSafe {
+        0%,
+        100% {
+          box-shadow: 0 0 20px rgba(46, 213, 115, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(46, 213, 115, 0.5);
+        }
+      }
+
+      .final-icon {
+        font-size: 4rem;
+        margin-bottom: 15px;
+      }
+
+      .final-label {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .final-result.hate .final-label {
+        color: var(--error);
+      }
+      .final-result.safe .final-label {
+        color: var(--success);
+      }
+
+      .probability-bar {
+        width: 100%;
+        height: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 15px 0;
+      }
+
+      .probability-fill {
+        height: 100%;
+        border-radius: 10px;
+        transition: width 1s ease-out;
+      }
+
+      .probability-fill.hate {
+        background: linear-gradient(90deg, #ff6b6b, var(--primary));
+      }
+
+      .probability-fill.safe {
+        background: linear-gradient(90deg, #2ed573, #7bed9f);
+      }
+
+      .probability-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+
+      .threshold-marker {
+        position: relative;
+        width: 100%;
+        height: 10px;
+      }
+
+      .threshold-line {
+        position: absolute;
+        left: 50%;
+        top: -25px;
+        width: 2px;
+        height: 30px;
+        background: white;
+        transform: translateX(-50%);
+      }
+
+      .threshold-label {
+        position: absolute;
+        left: 50%;
+        top: -35px;
+        transform: translateX(-50%);
+        font-size: 0.75rem;
+        color: white;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
     </style>
   </head>
   <body>
@@ -833,7 +1668,9 @@
       <!-- Tab Navigation -->
       <div class="tabs">
         <div class="tab active" data-tab="predict">🔍 Analyze Text</div>
+        <div class="tab" data-tab="demo">🔬 Live Demo</div>
         <div class="tab" data-tab="train">🚀 Train Model</div>
+        <div class="tab" data-tab="howitworks">📖 How It Works</div>
       </div>
 
       <!-- Predict Tab Content -->
@@ -872,6 +1709,207 @@
             <div class="result-icon" id="predictIcon"></div>
             <div class="result-text" id="predictText"></div>
             <div class="result-message" id="predictMessage"></div>
+          </div>
+
+          <div class="preprocessing-container" id="preprocessingContainer">
+            <div class="preprocessing-title">🔍 Quick Summary</div>
+            <div class="prediction-details" id="predictionDetails"></div>
+            <p
+              style="
+                color: var(--text-secondary);
+                font-size: 0.85rem;
+                margin-top: 15px;
+                text-align: center;
+              "
+            >
+              💡 Click the <strong>🔬 Live Demo</strong> tab to see the full
+              preprocessing pipeline for this text!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Demo Tab Content -->
+      <div id="demo-tab" class="tab-content">
+        <div class="card">
+          <div class="card-title">🔬 Live Text Processing Demo</div>
+
+          <p class="train-description" style="margin-bottom: 20px">
+            Watch your text transform step-by-step through the entire NLP
+            pipeline. From raw input to final prediction!
+          </p>
+
+          <div class="demo-container">
+            <!-- No Data Message -->
+            <div class="demo-input-section" id="noDataMessage">
+              <div style="text-align: center; padding: 30px">
+                <div style="font-size: 3rem; margin-bottom: 15px">📝</div>
+                <h3 style="color: var(--text-primary); margin-bottom: 10px">
+                  No Text Analyzed Yet
+                </h3>
+                <p style="color: var(--text-secondary); margin-bottom: 20px">
+                  Go to the <strong>🔍 Analyze Text</strong> tab first to
+                  analyze some text, then come back here to see the full
+                  preprocessing pipeline!
+                </p>
+                <button
+                  class="btn btn-primary"
+                  onclick="document.querySelector('[data-tab=predict]').click();"
+                  style="max-width: 250px; margin: 0 auto"
+                >
+                  Go to Analyze Text
+                </button>
+              </div>
+            </div>
+
+            <!-- Pipeline Visualization -->
+            <div class="pipeline-visualization" id="pipelineVisualization">
+              <!-- Stage 1: Original Input -->
+              <div class="pipeline-stage" id="stage1">
+                <div class="stage-header">
+                  <div class="stage-number">1</div>
+                  <div class="stage-info">
+                    <h3>📥 Original Input</h3>
+                    <p>Raw text exactly as you typed it</p>
+                  </div>
+                </div>
+                <div class="stage-content">
+                  <div class="text-display original" id="originalText"></div>
+                </div>
+              </div>
+
+              <div class="stage-arrow">⬇️</div>
+
+              <!-- Stage 2: Text Preprocessing -->
+              <div class="pipeline-stage" id="stage2">
+                <div class="stage-header">
+                  <div class="stage-number stage-2">2</div>
+                  <div class="stage-info">
+                    <h3>🧹 Text Preprocessing</h3>
+                    <p>Cleaning and normalizing the text</p>
+                  </div>
+                </div>
+                <div class="stage-content">
+                  <div id="preprocessingStepsDemo"></div>
+                </div>
+              </div>
+
+              <div class="stage-arrow">⬇️</div>
+
+              <!-- Stage 3: Tokenization -->
+              <div class="pipeline-stage" id="stage3">
+                <div class="stage-header">
+                  <div class="stage-number stage-3">3</div>
+                  <div class="stage-info">
+                    <h3>🔢 Tokenization</h3>
+                    <p>Converting words to numerical IDs</p>
+                  </div>
+                </div>
+                <div class="stage-content">
+                  <p style="color: var(--text-secondary); margin-bottom: 15px">
+                    Each word is mapped to a unique number from our vocabulary
+                    of 50,000 words:
+                  </p>
+                  <div class="token-display" id="tokenDisplay"></div>
+                </div>
+              </div>
+
+              <div class="stage-arrow">⬇️</div>
+
+              <!-- Stage 4: Padding -->
+              <div class="pipeline-stage" id="stage4">
+                <div class="stage-header">
+                  <div class="stage-number stage-4">4</div>
+                  <div class="stage-info">
+                    <h3>📏 Sequence Padding</h3>
+                    <p>Making all sequences exactly 300 tokens long</p>
+                  </div>
+                </div>
+                <div class="stage-content">
+                  <div class="sequence-display" id="sequenceDisplay"></div>
+                  <div class="padding-info">
+                    <div class="padding-stat">
+                      <div class="padding-stat-value" id="tokenCount">0</div>
+                      <div class="padding-stat-label">Actual Tokens</div>
+                    </div>
+                    <div class="padding-stat">
+                      <div class="padding-stat-value" id="paddingCount">0</div>
+                      <div class="padding-stat-label">Zero Padding</div>
+                    </div>
+                    <div class="padding-stat">
+                      <div class="padding-stat-value">300</div>
+                      <div class="padding-stat-label">Total Length</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stage-arrow">⬇️</div>
+
+              <!-- Stage 5: LSTM Model -->
+              <div class="pipeline-stage" id="stage5">
+                <div class="stage-header">
+                  <div class="stage-number stage-5">5</div>
+                  <div class="stage-info">
+                    <h3>🧠 LSTM Neural Network</h3>
+                    <p>Processing through the deep learning model</p>
+                  </div>
+                </div>
+                <div class="stage-content">
+                  <div class="model-visual">
+                    <div class="layer-box embedding">
+                      📚 Embedding Layer → 100-dim vectors
+                    </div>
+                    <div class="layer-arrow">↓</div>
+                    <div class="layer-box dropout">
+                      💧 SpatialDropout1D → 20% regularization
+                    </div>
+                    <div class="layer-arrow">↓</div>
+                    <div class="layer-box lstm">
+                      🔄 LSTM Layer → 100 memory units
+                    </div>
+                    <div class="layer-arrow">↓</div>
+                    <div class="layer-box dense">
+                      🎯 Dense + Sigmoid → probability
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stage-arrow">⬇️</div>
+
+              <!-- Stage 6: Final Result -->
+              <div class="pipeline-stage" id="stage6">
+                <div class="stage-header">
+                  <div class="stage-number stage-6">6</div>
+                  <div class="stage-info">
+                    <h3>🎯 Final Classification</h3>
+                    <p>Probability compared against threshold (50%)</p>
+                  </div>
+                </div>
+                <div class="stage-content">
+                  <div class="final-result" id="finalResult">
+                    <div class="final-icon" id="finalIcon"></div>
+                    <div class="final-label" id="finalLabel"></div>
+
+                    <div class="probability-bar">
+                      <div class="probability-fill" id="probabilityFill"></div>
+                    </div>
+
+                    <div class="threshold-marker">
+                      <div class="threshold-line"></div>
+                      <div class="threshold-label">50% Threshold</div>
+                    </div>
+
+                    <div class="probability-labels">
+                      <span>0% (Safe)</span>
+                      <span id="probabilityValue">50%</span>
+                      <span>100% (Hate)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -920,6 +1958,286 @@
         </div>
       </div>
 
+      <!-- How It Works Tab Content -->
+      <div id="howitworks-tab" class="tab-content">
+        <div class="card">
+          <div class="card-title">📖 How This NLP Project Works</div>
+
+          <p class="train-description" style="margin-bottom: 25px">
+            This project uses
+            <strong>Natural Language Processing (NLP)</strong> and
+            <strong>Deep Learning (LSTM)</strong>
+            to classify text as either hate speech or not. Here's the
+            step-by-step pipeline:
+          </p>
+
+          <div class="pipeline-container">
+            <!-- Step 1: Data Collection -->
+            <div class="pipeline-step">
+              <div class="step-header">
+                <div class="step-icon">📊</div>
+                <div>
+                  <div class="step-title">Step 1: Data Collection</div>
+                  <div class="step-subtitle">730K+ labeled samples</div>
+                </div>
+              </div>
+              <div class="step-content">
+                <p>We use two datasets for training:</p>
+                <ul>
+                  <li>
+                    <strong>HateSpeechDatasetBalanced.csv</strong> — Traditional
+                    text-based hate speech
+                  </li>
+                  <li>
+                    <strong>EmojiHate.csv</strong> — Hate speech that includes
+                    emojis (e.g., "I would love to 🔪 some 👳🏾")
+                  </li>
+                </ul>
+                <p>
+                  The datasets are balanced with equal examples of hate and
+                  non-hate speech for fair learning.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 2: Text Preprocessing -->
+            <div class="pipeline-step">
+              <div class="step-header">
+                <div class="step-icon">🧹</div>
+                <div>
+                  <div class="step-title">Step 2: Text Preprocessing</div>
+                  <div class="step-subtitle">Cleaning & Normalizing Text</div>
+                </div>
+              </div>
+              <div class="step-content">
+                <p>
+                  Before training, raw text must be cleaned using standard NLP
+                  techniques:
+                </p>
+                <ul>
+                  <li><strong>Lowercasing</strong> — "HATE" → "hate"</li>
+                  <li>
+                    <strong>URL Removal</strong> — Removes http://... links
+                  </li>
+                  <li>
+                    <strong>Punctuation Removal</strong> — "hate!!!" → "hate"
+                  </li>
+                  <li>
+                    <strong>Stopword Removal</strong> — Removes common words
+                    like "the", "is", "a"
+                  </li>
+                  <li>
+                    <strong>Stemming</strong> — Reduces words to root form:
+                    "running" → "run"
+                  </li>
+                </ul>
+                <div class="code-example">
+                  <span class="label">Input:</span> "I HATE those people!!!
+                  http://example.com"<br />
+                  <span class="label">Output:</span>
+                  <span class="value">"hate peopl"</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Tokenization -->
+            <div class="pipeline-step">
+              <div class="step-header">
+                <div class="step-icon">🔢</div>
+                <div>
+                  <div class="step-title">Step 3: Tokenization & Padding</div>
+                  <div class="step-subtitle">Converting Words to Numbers</div>
+                </div>
+              </div>
+              <div class="step-content">
+                <p>Computers don't understand words but only numbers. So we:</p>
+                <ul>
+                  <li>
+                    <strong>Tokenization</strong> — Each unique word gets a
+                    number ID (e.g., "hate" → 42)
+                  </li>
+                  <li>
+                    <strong>Sequence Conversion</strong> — Sentences become
+                    number sequences
+                  </li>
+                  <li>
+                    <strong>Padding</strong> — All sequences are made exactly
+                    300 tokens long (shorter ones get zeros)
+                  </li>
+                </ul>
+                <div class="code-example">
+                  <span class="label">"hate people"</span>
+                  <span class="arrow">→</span>
+                  <span class="value">[42, 891]</span>
+                  <span class="arrow">→</span>
+                  <span class="value">[0, 0, ..., 42, 891]</span> (length 300)
+                </div>
+                <div class="constants-grid">
+                  <div class="constant-card">
+                    <div class="constant-value">50,000</div>
+                    <div class="constant-label">Vocabulary Size</div>
+                  </div>
+                  <div class="constant-card">
+                    <div class="constant-value">300</div>
+                    <div class="constant-label">Sequence Length</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: LSTM Model -->
+            <div class="pipeline-step">
+              <div class="step-header">
+                <div class="step-icon">🧠</div>
+                <div>
+                  <div class="step-title">Step 4: LSTM Neural Network</div>
+                  <div class="step-subtitle">The Deep Learning Model</div>
+                </div>
+              </div>
+              <div class="step-content">
+                <p>We use a 4-layer neural network architecture:</p>
+
+                <div class="architecture-diagram">
+                  <h4>Model Architecture</h4>
+                  <div class="architecture-flow">
+                    <div class="arch-layer">
+                      <div class="arch-layer-name">📥 Input Layer</div>
+                      <div class="arch-layer-desc">300 tokens per sequence</div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-layer embedding">
+                      <div class="arch-layer-name">📚 Embedding Layer</div>
+                      <div class="arch-layer-desc">
+                        50,000 words → 100 dimensions
+                      </div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-layer dropout">
+                      <div class="arch-layer-name">💧 SpatialDropout1D</div>
+                      <div class="arch-layer-desc">
+                        20% dropout for regularization
+                      </div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-layer lstm">
+                      <div class="arch-layer-name">🔄 LSTM Layer</div>
+                      <div class="arch-layer-desc">
+                        100 units — learns sequential patterns
+                      </div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-layer dense">
+                      <div class="arch-layer-name">🎯 Dense + Sigmoid</div>
+                      <div class="arch-layer-desc">
+                        1 neuron → probability (0 to 1)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p>
+                  <strong>Why LSTM?</strong> Unlike simple models, LSTM
+                  remembers context. It understands that "I love you" vs "I'd
+                  love to hurt you" have different meanings despite sharing
+                  words.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 5: Training -->
+            <div class="pipeline-step">
+              <div class="step-header">
+                <div class="step-icon">🏋️</div>
+                <div>
+                  <div class="step-title">Step 5: Model Training</div>
+                  <div class="step-subtitle">Learning from Examples</div>
+                </div>
+              </div>
+              <div class="step-content">
+                <p>The model learns by seeing labeled examples:</p>
+                <ul>
+                  <li>
+                    <strong>Input:</strong> Preprocessed text sequences
+                    (numbers)
+                  </li>
+                  <li><strong>Output:</strong> 0 (no hate) or 1 (hate)</li>
+                  <li>
+                    <strong>Loss Function:</strong> Binary Crossentropy is
+                    perfect for yes/no classification
+                  </li>
+                  <li>
+                    <strong>Optimizer:</strong> RMSprop: Adjusts weights to
+                    minimize error
+                  </li>
+                </ul>
+                <div class="constants-grid">
+                  <div class="constant-card">
+                    <div class="constant-value">5M+</div>
+                    <div class="constant-label">Model Parameters</div>
+                  </div>
+                  <div class="constant-card">
+                    <div class="constant-value">10</div>
+                    <div class="constant-label">Training Epochs</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 6: Prediction -->
+            <div class="pipeline-step">
+              <div class="step-header">
+                <div class="step-icon">🎯</div>
+                <div>
+                  <div class="step-title">Step 6: Prediction</div>
+                  <div class="step-subtitle">Classifying New Text</div>
+                </div>
+              </div>
+              <div class="step-content">
+                <p>When you enter text for analysis:</p>
+                <ul>
+                  <li>Text is cleaned (same preprocessing as training)</li>
+                  <li>Converted to number sequence using saved tokenizer</li>
+                  <li>Padded to 300 tokens</li>
+                  <li>Fed through the trained LSTM model</li>
+                  <li>
+                    If output > 0.5 →
+                    <strong style="color: var(--error)">Hate Speech</strong>,
+                    else →
+                    <strong style="color: var(--success)">No Hate</strong>
+                  </li>
+                </ul>
+                <div class="code-example">
+                  <span class="label">Model Output:</span> 0.87<br />
+                  <span class="label">Threshold:</span> 0.50<br />
+                  <span class="label">Result:</span>
+                  <span style="color: var(--error)">Hate Speech Detected</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="summary-box">
+            <h3>✨ Summary Pipeline</h3>
+            <div class="summary-flow">
+              <span>User Input</span>
+              <span class="arrow">→</span>
+              <span>Clean Text</span>
+              <span class="arrow">→</span>
+              <span>Tokenize</span>
+              <span class="arrow">→</span>
+              <span>Pad to 300</span>
+              <span class="arrow">→</span>
+              <span>LSTM Model</span>
+              <span class="arrow">→</span>
+              <span>Probability</span>
+              <span class="arrow">→</span>
+              <span>Hate / No Hate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="info-section">
         <div class="info-card">
           <h3>🧠 LSTM Model</h3>
@@ -949,6 +2267,9 @@
     </div>
 
     <script>
+      // Shared variable to store the last prediction data
+      let lastPredictionData = null;
+
       // Tab switching with animation
       const tabs = document.querySelectorAll(".tab");
       tabs.forEach((tab) => {
@@ -967,6 +2288,14 @@
           content.style.animation = "none";
           content.offsetHeight; // Trigger reflow
           content.style.animation = null;
+
+          // If switching to demo tab and we have prediction data, show it
+          if (tabId === "demo" && lastPredictionData) {
+            displayPipelineVisualization(
+              lastPredictionData.text,
+              lastPredictionData.response
+            );
+          }
         });
       });
 
@@ -979,6 +2308,10 @@
       const predictIcon = document.getElementById("predictIcon");
       const predictText = document.getElementById("predictText");
       const predictMessage = document.getElementById("predictMessage");
+      const preprocessingContainer = document.getElementById(
+        "preprocessingContainer"
+      );
+      const predictionDetails = document.getElementById("predictionDetails");
 
       predictForm.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -989,6 +2322,7 @@
         predictBtn.disabled = true;
         predictLoading.style.display = "block";
         predictResult.style.display = "none";
+        preprocessingContainer.style.display = "none";
 
         try {
           const response = await fetch(
@@ -1009,7 +2343,10 @@
           predictResult.style.animation = null;
 
           if (data.status === "success") {
-            // Fixed: Check for exact match "Hate Speech" instead of includes("Hate")
+            // Store the prediction data for the demo tab
+            lastPredictionData = { text: text, response: data };
+
+            // Show result
             if (data.prediction === "Hate Speech") {
               predictResult.className = "result-container result-hate";
               predictIcon.textContent = "🚨";
@@ -1018,6 +2355,34 @@
               predictResult.className = "result-container result-safe";
               predictIcon.textContent = "✅";
               predictText.textContent = "No Hate Speech Detected";
+            }
+
+            // Show quick summary
+            if (data.preprocessing_steps) {
+              preprocessingContainer.style.display = "block";
+
+              const probPercent = (data.probability * 100).toFixed(2);
+              const isHate = data.prediction === "Hate Speech";
+              predictionDetails.innerHTML = `
+                <div class="detail-item">
+                  <div class="detail-label">Probability</div>
+                  <div class="detail-value ${
+                    isHate ? "hate" : "safe"
+                  }">${probPercent}%</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Threshold</div>
+                  <div class="detail-value">${(data.threshold * 100).toFixed(
+                    0
+                  )}%</div>
+                </div>
+                <div class="detail-item">
+                  <div class="detail-label">Token Count</div>
+                  <div class="detail-value">${
+                    data.token_sequence ? data.token_sequence.length : 0
+                  }</div>
+                </div>
+              `;
             }
           } else {
             predictResult.className = "result-container result-error";
@@ -1037,6 +2402,109 @@
           console.error(error);
         }
       });
+
+      // Function to display pipeline visualization (shared between tabs)
+      function displayPipelineVisualization(text, data) {
+        const pipelineVisualization = document.getElementById(
+          "pipelineVisualization"
+        );
+        const noDataMessage = document.getElementById("noDataMessage");
+
+        // Hide the "no data" message and show visualization
+        noDataMessage.style.display = "none";
+
+        // Show the pipeline visualization
+        pipelineVisualization.classList.add("active");
+
+        // Stage 1: Original Input
+        document.getElementById("originalText").textContent = text;
+
+        // Stage 2: Preprocessing Steps
+        const preprocessingStepsDemo = document.getElementById(
+          "preprocessingStepsDemo"
+        );
+        preprocessingStepsDemo.innerHTML = "";
+
+        if (data.preprocessing_steps) {
+          data.preprocessing_steps.forEach((step, index) => {
+            const stepHtml = `
+              <div style="margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 10px; border-left: 3px solid ${getStepColor(
+                index
+              )}; animation: stepFadeIn 0.3s ease-out forwards; animation-delay: ${
+              index * 0.1
+            }s; opacity: 0;">
+                <div style="color: ${getStepColor(
+                  index
+                )}; font-weight: 600; font-size: 0.9rem; margin-bottom: 8px;">
+                  ${getStepEmoji(index)} ${step.step}
+                </div>
+                <div class="text-display processed" style="border-left-color: ${getStepColor(
+                  index
+                )}">
+                  ${step.text || "(empty)"}
+                </div>
+              </div>
+            `;
+            preprocessingStepsDemo.innerHTML += stepHtml;
+          });
+        }
+
+        // Stage 3: Tokenization
+        const tokenDisplay = document.getElementById("tokenDisplay");
+        tokenDisplay.innerHTML = "";
+
+        const finalText =
+          data.preprocessing_steps[data.preprocessing_steps.length - 1]?.text ||
+          "";
+        const words = finalText.split(" ").filter((w) => w.length > 0);
+        const tokens = data.token_sequence || [];
+
+        words.forEach((word, index) => {
+          const tokenId = tokens[index] || "?";
+          tokenDisplay.innerHTML += `
+            <div class="token-item">
+              <div class="token-word">"${word}"</div>
+              <div class="token-id">ID: ${tokenId}</div>
+            </div>
+          `;
+        });
+
+        // Stage 4: Padding
+        const sequenceDisplay = document.getElementById("sequenceDisplay");
+        const tokenCount = tokens.length;
+        const paddingCount = 300 - tokenCount;
+
+        let sequenceStr = "[";
+        sequenceStr += "0, ".repeat(Math.min(paddingCount, 5));
+        if (paddingCount > 5) sequenceStr += "..., ";
+        sequenceStr += tokens.join(", ");
+        sequenceStr += "]";
+
+        sequenceDisplay.textContent = sequenceStr;
+        document.getElementById("tokenCount").textContent = tokenCount;
+        document.getElementById("paddingCount").textContent = paddingCount;
+
+        // Stage 6: Final Result
+        const isHate = data.prediction === "Hate Speech";
+        const probability = data.probability * 100;
+
+        const finalResult = document.getElementById("finalResult");
+        finalResult.className = `final-result ${isHate ? "hate" : "safe"}`;
+
+        document.getElementById("finalIcon").textContent = isHate ? "🚨" : "✅";
+        document.getElementById("finalLabel").textContent = isHate
+          ? "Hate Speech Detected"
+          : "No Hate Speech";
+        document.getElementById(
+          "probabilityValue"
+        ).textContent = `${probability.toFixed(2)}%`;
+
+        const probabilityFill = document.getElementById("probabilityFill");
+        probabilityFill.className = `probability-fill ${
+          isHate ? "hate" : "safe"
+        }`;
+        probabilityFill.style.width = `${probability}%`;
+      }
 
       // Train button handling
       const trainBtn = document.getElementById("trainBtn");
@@ -1074,12 +2542,12 @@
 
           if (data.status === "success") {
             trainResult.className = "result-container result-success";
-            trainIcon.textContent = "🎉";
+            trainIcon.textContent = "✅";
             trainText.textContent = "Training Complete!";
             trainMessage.textContent = data.message;
           } else if (data.status === "warning") {
             trainResult.className = "result-container result-error";
-            trainIcon.textContent = "ℹ️";
+            trainIcon.textContent = "⚠️";
             trainText.textContent = "Training Complete";
             trainMessage.textContent = data.message;
           } else {
@@ -1100,6 +2568,24 @@
           console.error(error);
         }
       });
+
+      function getStepColor(index) {
+        const colors = [
+          "#e94560",
+          "#ff9f43",
+          "#54a0ff",
+          "#5f27cd",
+          "#00d2d3",
+          "#2ed573",
+          "#a55eea",
+        ];
+        return colors[index % colors.length];
+      }
+
+      function getStepEmoji(index) {
+        const emojis = ["📝", "🔡", "🔗", "✂️", "🔢", "🚫", "🌱"];
+        return emojis[index % emojis.length];
+      }
     </script>
   </body>
 </html>

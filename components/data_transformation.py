@@ -69,6 +69,8 @@ class DataTransformation:
 
         try:
 
+            steps = []
+
             # Formatting data
             print("\n" + "-" *30)
             print("Text Preprocessing Steps")
@@ -78,36 +80,42 @@ class DataTransformation:
             # Converts text to lowercase
             text = str(text).lower()
             print(f"\n2. Lowercased:\n '{text}'")
+            steps.append({"step": "Lowercased", "text": text})
 
             # Removes URLs
             text = re.sub(r'\[.*?\]', '', text)
             text = re.sub(r'https?://\S+|www\.\S+', '', text)
             text = re.sub(r'<.*?>+', '', text)
             print(f"\n3. URLs & special characters removed:\n '{text}'")
+            steps.append({"step": "URLs Removed", "text": text})
 
             # Removes punctuations
             text = re.sub(r'[%s]' % re.escape(string.punctuation), '', text)
             print(f"\n4. Punctuations removed:\n '{text}'")
+            steps.append({"step": "Punctuation Removed", "text": text})
 
             # Removes numbers
             text = re.sub(r'\n', '', text)
             text = re.sub(r'\w*\d\w*', '', text)
             print(f"\n5. Numbers removed:\n '{text}'")
+            steps.append({"step": "Numbers Removed", "text": text})
 
             # Filters out common words that do not add meaning (for e.g. articles)
             text = [word for word in text.split(' ') if word not in self.stopword]
             text=" ".join(text)
             print(f"\n6. Stopwords removed:\n '{text}'")
+            steps.append({"step": "Stopwords Removed", "text": text})
 
             # Applying stemmers to reduces words to root form (for e.g. Running -> Run)
             text = [self.stemmer.stem(word) for word in text.split(' ')]
             text=" ".join(text)
             print(f"\n7. Applied stemmers:\n '{text}'")
+            steps.append({"step": "Stemming Applied", "text": text})
             print("-"*30 + "\n")
 
             logging.info("Completed data formatting.")
 
-            return text
+            return text, steps
 
         # Exception handling
         except Exception as e:

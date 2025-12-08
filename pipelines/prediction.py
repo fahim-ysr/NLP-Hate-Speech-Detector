@@ -78,7 +78,7 @@ class Prediction:
                 load_tokenizer = pickle.load(pickle_file)
 
             # Cleans the input text the same way training data was cleaned
-            cleaned_text = self.data_transformation.data_format(text)
+            cleaned_text, preprocessing_steps = self.data_transformation.data_format(text)
 
             print(f"Original: {text}")
             print(f"Cleaned: {cleaned_text}")
@@ -103,12 +103,19 @@ class Prediction:
             if pred_val > THRESHOLD:
                 output = "Hate Speech"
                 print(f"Result: {output}")
-                return output
 
             else:
                 output = "No Hate"
                 print(f"Result: {output}")
-                return output
+
+            return {
+                "prediction": output,
+                "probability": round(pred_val, 4),
+                "threshold": THRESHOLD,
+                "preprocessing_steps": preprocessing_steps,
+                # First 10 tokens only
+                "sequence": sequence[0][ :10] if sequence[0] else []
+            }
 
 
         # Exception handling
@@ -125,11 +132,11 @@ class Prediction:
             best_model_path = self.fetch_model_from_gcloud()
 
             # Runs prediction on user input
-            predicted_text = self.predict(best_model_path, text)
+            result = self.predict(best_model_path, text)
             
             logging.info("Prediction pipeline ended.")
 
-            return predicted_text
+            return result
 
 
         # Exception handling
