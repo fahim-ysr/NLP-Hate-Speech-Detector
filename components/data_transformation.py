@@ -70,21 +70,40 @@ class DataTransformation:
         try:
 
             # Formatting data
+            print("\n" + "-" *30)
+            print("Text Preprocessing Steps")
+            print("-"*30)
+            print(f"\n1. Original Text:\n '{text}'")
+
+            # Converts text to lowercase
             text = str(text).lower()
+            print(f"\n2. Lowercased:\n '{text}'")
+
+            # Removes URLs
             text = re.sub(r'\[.*?\]', '', text)
             text = re.sub(r'https?://\S+|www\.\S+', '', text)
             text = re.sub(r'<.*?>+', '', text)
+            print(f"\n3. URLs & special characters removed:\n '{text}'")
+
+            # Removes punctuations
             text = re.sub(r'[%s]' % re.escape(string.punctuation), '', text)
+            print(f"\n4. Punctuations removed:\n '{text}'")
+
+            # Removes numbers
             text = re.sub(r'\n', '', text)
             text = re.sub(r'\w*\d\w*', '', text)
+            print(f"\n5. Numbers removed:\n '{text}'")
 
             # Filters out common words that do not add meaning (for e.g. articles)
             text = [word for word in text.split(' ') if word not in self.stopword]
             text=" ".join(text)
+            print(f"\n6. Stopwords removed:\n '{text}'")
 
             # Applying stemmers to reduces words to root form (for e.g. Running -> Run)
             text = [self.stemmer.stem(word) for word in text.split(' ')]
             text=" ".join(text)
+            print(f"\n7. Applied stemmers:\n '{text}'")
+            print("-"*30 + "\n")
 
             logging.info("Completed data formatting.")
 
