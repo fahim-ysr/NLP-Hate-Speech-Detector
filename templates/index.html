@@ -231,8 +231,14 @@
 
       .tab {
         padding: 14px 28px;
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.08) 0%,
+          rgba(255, 255, 255, 0.03) 100%
+        );
+        backdrop-filter: blur(15px) saturate(150%);
+        -webkit-backdrop-filter: blur(15px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-bottom: none;
         border-radius: 16px 16px 0 0;
         cursor: pointer;
@@ -276,16 +282,19 @@
       .card {
         background: linear-gradient(
           135deg,
-          rgba(255, 255, 255, 0.05) 0%,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.05) 50%,
           rgba(255, 255, 255, 0.02) 100%
         );
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(25px) saturate(180%);
+        -webkit-backdrop-filter: blur(25px) saturate(180%);
         border-radius: 0 24px 24px 24px;
         padding: 40px 50px;
-        border: 1px solid var(--border-color);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          0 0 0 1px rgba(255, 255, 255, 0.05),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         position: relative;
         overflow: hidden;
       }
@@ -352,21 +361,34 @@
       textarea {
         width: 100%;
         padding: 18px;
-        border: 2px solid var(--border-color);
+        border: 2px solid rgba(255, 255, 255, 0.1);
         border-radius: 16px;
-        background: rgba(0, 0, 0, 0.3);
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.4) 0%,
+          rgba(0, 0, 0, 0.2) 100%
+        );
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         color: var(--text-primary);
         font-size: 1rem;
         font-family: inherit;
         resize: vertical;
         min-height: 140px;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
       }
 
       textarea:focus {
         outline: none;
         border-color: var(--primary);
-        box-shadow: 0 0 0 4px var(--primary-glow), 0 0 40px var(--primary-glow);
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0.3) 100%
+        );
+        box-shadow: 0 0 0 4px var(--primary-glow), 0 0 40px var(--primary-glow),
+          inset 0 2px 4px rgba(0, 0, 0, 0.2);
       }
 
       textarea::placeholder {
@@ -535,39 +557,32 @@
         text-align: center;
         display: none;
         animation: resultPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      }
-
-      @keyframes resultPop {
-        from {
-          opacity: 0;
-          transform: scale(0.8);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
+        backdrop-filter: blur(20px) saturate(150%);
+        -webkit-backdrop-filter: blur(20px) saturate(150%);
       }
 
       .result-hate {
         background: linear-gradient(
           135deg,
-          rgba(233, 69, 96, 0.15),
-          rgba(233, 69, 96, 0.05)
+          rgba(233, 69, 96, 0.2) 0%,
+          rgba(233, 69, 96, 0.08) 100%
         );
-        border: 2px solid var(--primary);
+        border: 2px solid rgba(233, 69, 96, 0.4);
         box-shadow: 0 0 40px var(--primary-glow),
-          inset 0 0 40px rgba(233, 69, 96, 0.1);
+          inset 0 1px 0 rgba(255, 255, 255, 0.1),
+          inset 0 0 40px rgba(233, 69, 96, 0.05);
       }
 
       .result-safe {
         background: linear-gradient(
           135deg,
-          rgba(46, 213, 115, 0.15),
-          rgba(46, 213, 115, 0.05)
+          rgba(46, 213, 115, 0.2) 0%,
+          rgba(46, 213, 115, 0.08) 100%
         );
-        border: 2px solid var(--success);
+        border: 2px solid rgba(46, 213, 115, 0.4);
         box-shadow: 0 0 40px rgba(46, 213, 115, 0.3),
-          inset 0 0 40px rgba(46, 213, 115, 0.1);
+          inset 0 1px 0 rgba(255, 255, 255, 0.1),
+          inset 0 0 40px rgba(46, 213, 115, 0.05);
       }
 
       .result-error {
@@ -702,11 +717,19 @@
       }
 
       .info-card {
-        background: var(--bg-card);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.08) 0%,
+          rgba(255, 255, 255, 0.03) 100%
+        );
+        backdrop-filter: blur(20px) saturate(150%);
+        -webkit-backdrop-filter: blur(20px) saturate(150%);
         padding: 25px;
         border-radius: 16px;
         text-align: center;
-        border: 1px solid var(--border-color);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
@@ -938,16 +961,31 @@
       }
 
       .pipeline-step {
-        background: rgba(255, 255, 255, 0.03);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.06) 0%,
+          rgba(255, 255, 255, 0.02) 100%
+        );
+        backdrop-filter: blur(12px) saturate(120%);
+        -webkit-backdrop-filter: blur(12px) saturate(120%);
         border-radius: 16px;
         padding: 25px;
         border-left: 4px solid var(--primary);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
       }
 
       .pipeline-step:hover {
-        background: rgba(255, 255, 255, 0.06);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.04) 100%
+        );
         transform: translateX(5px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
       }
 
       .pipeline-step:nth-child(2) {
@@ -1212,10 +1250,17 @@
       }
 
       .demo-input-section {
-        background: rgba(0, 0, 0, 0.2);
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.15) 100%
+        );
+        backdrop-filter: blur(15px) saturate(120%);
+        -webkit-backdrop-filter: blur(15px) saturate(120%);
         border-radius: 16px;
         padding: 25px;
-        border: 1px solid var(--border-color);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
       }
 
       .demo-input-section label {
@@ -1262,11 +1307,18 @@
       }
 
       .pipeline-stage {
-        background: rgba(0, 0, 0, 0.3);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.06) 0%,
+          rgba(255, 255, 255, 0.02) 100%
+        );
+        backdrop-filter: blur(15px) saturate(120%);
+        -webkit-backdrop-filter: blur(15px) saturate(120%);
         border-radius: 16px;
         margin-bottom: 20px;
         overflow: hidden;
-        border: 1px solid var(--border-color);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
       }
 
       .stage-header {
@@ -1525,25 +1577,31 @@
         text-align: center;
         padding: 30px;
         border-radius: 16px;
+        backdrop-filter: blur(15px) saturate(150%);
+        -webkit-backdrop-filter: blur(15px) saturate(150%);
         animation: resultGlow 2s ease-in-out infinite;
       }
 
       .final-result.hate {
         background: linear-gradient(
           135deg,
-          rgba(233, 69, 96, 0.2),
-          rgba(233, 69, 96, 0.1)
+          rgba(233, 69, 96, 0.25) 0%,
+          rgba(233, 69, 96, 0.1) 100%
         );
-        border: 2px solid var(--primary);
+        border: 2px solid rgba(233, 69, 96, 0.5);
+        box-shadow: 0 0 40px rgba(233, 69, 96, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
       }
 
       .final-result.safe {
         background: linear-gradient(
           135deg,
-          rgba(46, 213, 115, 0.2),
-          rgba(46, 213, 115, 0.1)
+          rgba(46, 213, 115, 0.25) 0%,
+          rgba(46, 213, 115, 0.1) 100%
         );
-        border: 2px solid var(--success);
+        border: 2px solid rgba(46, 213, 115, 0.5);
+        box-shadow: 0 0 40px rgba(46, 213, 115, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
       }
 
       @keyframes resultGlow {
