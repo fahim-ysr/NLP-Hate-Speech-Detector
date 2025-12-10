@@ -1,0 +1,138 @@
+## Use this file for the purpose of testing the application. These sample sentences have been generated using Google Gemini. Sincere apologies for the explicit and vulgar language. ##
+
+Non-Hate Speech Samples:
+------------------------
+
+These are neutral, positive, or everyday statements without any derogatory intent.
+
+I love trying new recipes this weekend! 🍳😊
+
+Heading to the gym for a quick workout. 💪 Who's with me?
+
+That new album dropped and it's fire! 🎶🔥
+
+Beautiful sunset today, perfect for a walk. 🌅✨
+
+Thanks for the birthday wishes, everyone! 🎉🙌
+
+Coffee and coding session incoming. ☕💻
+
+Excited for the soccer match tonight! ⚽🏆
+
+Just finished a great book recommendation. 📖👍
+
+Family dinner plans sound amazing. 👨‍👩‍👧‍👦🍽️
+
+Weather's perfect for a picnic. 🧺☀️
+
+
+Hateful Speech Samples:
+-----------------------
+
+These contain clear hate speech targeting protected groups (e.g., race, religion, gender) with harmful intent.
+
+All Muslims are terrorists, they should be banned forever! 🕌💣
+
+Women belong in the kitchen, not in offices. 👩‍🍳🚫
+
+Black people are lazy criminals ruining our cities. 🖤🚔
+
+Jews control everything and are greedy pigs. 💰
+
+Immigrants are invading scum stealing our jobs. 🇲🇽🛑
+
+Feminists are ugly man-haters who need to shut up. 👯‍♀️🤬
+
+Asians are sneaky virus spreaders. 🦠🇨🇳
+
+Disabled people are burdens on society, euthanize them. ♿💊
+
+
+Offensive (Non-Hateful) Samples:
+--------------------------------
+
+These are rude, vulgar, or insulting but target individuals or situations without hate toward groups.
+
+You're such a dumbass for forgetting that again. 🤦‍♂️
+
+This food tastes like absolute shit, send it back! 🤮🍔
+
+Shut your stupid mouth before I lose my temper. 😡🔇
+
+What a moronic idea, grow a brain! 🧠❌
+
+Your outfit looks ridiculous, change it. 😂👕
+
+Piss off and leave me alone, idiot. 🚽🙅
+
+You're lazy as fuck, do your damn job. 🛋️😤
+
+Bitch, move out of my way now. 👠🚶‍♀️
+
+Your joke was lame and offensive to everyone here. 😒😂
+
+
+Non-Hate Speech Samples (Unclean):
+----------------------------------
+
+Loving this 2025 recipe: choc0late cake @ 350F! 🍰🔥 http://bit.ly/bestrecipes
+
+Gym sesh #123 today, PR on bench 225lbs 💪!! Who's joining??
+
+New alb^m dropped, track 4 is 🔥🎶 https://youtu.be/abc123
+
+Sunset pics from beach #vacay2025 🌅✨ pic.twitter.com/xyz789
+
+Thx 4 bday wishes!! 🎉🙌 30 already?? Time flies @friends
+
+Coffee + coding 24/7 ☕💻 github.com/myrepo#v1.2
+
+Soccer match tonight @ 8pm ET ⚽🏆 tix @ stubhub.com/12345
+
+Finished book #7 in series 📖👍 amazon.com/goodreads-link
+
+Family dinner 2nite, pasta^special 👨‍👩‍👧‍👦🍽️ reserve@restaurant.com
+
+Picnic weather!! 🧺☀️ 75F perfect #outdoors
+
+
+Hateful Speech Samples (Unclean):
+---------------------------------
+
+Muslims = terror1sts!! Ban them all 🕌💣 islamhate.net/2025
+
+W0men stay in kitchen!! No jobs 4 u 👩‍🍳🚫 #misogyny123
+
+Blacks r lazy cr1minals!! Ruin1ng cities 🖤🚔 @hategroup.com
+
+Jews gr33dy pigs control1ng $$ 💰🕍 jewsout.org/#hate
+
+Imm1grants scum stealin jobs!! Deport @!# 🇲🇽🛑 borderwall.net
+
+F3minists ugly h@ters STFU!! 👯‍♀️🤬 #feminazi2025
+
+As1ans sneaky v1rus!! Covid fault 🦠🇨🇳 china-hate.github.io
+
+D1sabled burdens!! Euthanize ♿💊 specialneedsout.com/789
+
+
+Offensive (Non-Hateful) Samples (Unclean):
+-----------------------------------------
+
+Ur such a dumb@ss 4 forgettin!! 🤦‍♂️ #idiot123
+
+Food tastes like sh1t!! Send back asap 🤮🍔 restaurant.com/complaint
+
+Shut ur stup1d mouth b4 I snap 😡🔇 @asshole
+
+M0ronic idea!! Grow brain pls 🧠❌ lol
+
+Outfit rid1culous!! Change n0w 😂👕 pic.twitter.com/ugly456
+
+P1ss off idiot!! Leave me al0ne 🚽🙅 #fuckoff
+
+Lazy as f*ck!! Do ur j0b 😤🛋️ boss@work.com
+
+B1tch move!! Outta my way 👠🚶‍♀️ now!
+
+Joke lame & offens1ve!! 😒😂 everyone hates it #fail2025

@@ -18,6 +18,7 @@ from exception import CustomException
 from entity.config_entity import DataTransformationConfig
 from entity.artifact_entity import DataIngestionArtifacts
 from entity.artifact_entity import DataTransformationArtifacts
+import emoji
 
 
 class DataTransformation:
@@ -58,6 +59,35 @@ class DataTransformation:
         # Exception handling
         except Exception as e:
             raise CustomException(e, sys) from e
+
+
+    def separate_emojis(self, text):
+        """
+        Separates adjacent emojis by adding spaces between them.
+        """
+
+        result = []
+        was_emoji = False
+
+        for char in text:
+            is_emoji = char in emoji.EMOJI_DATA
+
+            if is_emoji:
+                # Adds space before emoji if previous char wasn't a space
+                if result and result[-1] != ' ':
+                    result.append(' ')
+                result.append(char)
+                was_emoji = True
+            
+            else:
+                # Adds space after emoji if this is first non-emoji char
+                if was_emoji and char != ' ':
+                    result.append(' ')
+                result.append(char)
+                was_emoji = False
+
+        # Cleans up multiple spaces
+        return ' '.join(''.join(result).split())
         
     
     def data_format(self, text):
@@ -82,34 +112,39 @@ class DataTransformation:
             print(f"\n2. Lowercased:\n '{text}'")
             steps.append({"step": "Lowercased", "text": text})
 
+            # Separates adjacent emojis
+            text = self.separate_emojis(text)
+            print(f"\n3. Emojis Separated:\n '{text}'")
+            steps.append({"step": "Emojis Separated", "text": text})
+
             # Removes URLs
             text = re.sub(r'\[.*?\]', '', text)
             text = re.sub(r'https?://\S+|www\.\S+', '', text)
             text = re.sub(r'<.*?>+', '', text)
-            print(f"\n3. URLs & special characters removed:\n '{text}'")
+            print(f"\n4. URLs & special characters removed:\n '{text}'")
             steps.append({"step": "URLs Removed", "text": text})
 
             # Removes punctuations
             text = re.sub(r'[%s]' % re.escape(string.punctuation), '', text)
-            print(f"\n4. Punctuations removed:\n '{text}'")
+            print(f"\n5. Punctuations removed:\n '{text}'")
             steps.append({"step": "Punctuation Removed", "text": text})
 
             # Removes numbers
             text = re.sub(r'\n', '', text)
-            text = re.sub(r'\w*\d\w*', '', text)
-            print(f"\n5. Numbers removed:\n '{text}'")
+            text = re.sub(r'\d', '', text)
+            print(f"\n6. Numbers removed:\n '{text}'")
             steps.append({"step": "Numbers Removed", "text": text})
 
             # Filters out common words that do not add meaning (for e.g. articles)
             text = [word for word in text.split(' ') if word not in self.stopword]
             text=" ".join(text)
-            print(f"\n6. Stopwords removed:\n '{text}'")
+            print(f"\n7. Stopwords removed:\n '{text}'")
             steps.append({"step": "Stopwords Removed", "text": text})
 
             # Applying stemmers to reduces words to root form (for e.g. Running -> Run)
             text = [self.stemmer.stem(word) for word in text.split(' ')]
             text=" ".join(text)
-            print(f"\n7. Applied stemmers:\n '{text}'")
+            print(f"\n8. Applied stemmers:\n '{text}'")
             steps.append({"step": "Stemming Applied", "text": text})
             print("-"*30 + "\n")
 

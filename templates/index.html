@@ -166,7 +166,7 @@
       }
 
       .container {
-        max-width: 750px;
+        max-width: 950px;
         width: 100%;
         animation: fadeInUp 0.8s ease-out;
       }
@@ -282,7 +282,7 @@
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-radius: 0 24px 24px 24px;
-        padding: 45px;
+        padding: 40px 50px;
         border: 1px solid var(--border-color);
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
           inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -784,7 +784,7 @@
       }
 
       /* Responsive */
-      @media (max-width: 600px) {
+      @media (max-width: 768px) {
         h1 {
           font-size: 2.2rem;
         }
@@ -804,6 +804,10 @@
 
         .card {
           border-radius: 24px;
+        }
+
+        .container {
+          max-width: 100%;
         }
       }
 
@@ -1614,6 +1618,28 @@
         color: var(--text-secondary);
       }
 
+      .probability-value-marker {
+        position: absolute;
+        top: -30px;
+        transform: translateX(-50%);
+        font-size: 0.85rem;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 6px;
+        white-space: nowrap;
+        transition: left 1s ease-out;
+      }
+
+      .probability-value-marker.hate {
+        background: var(--primary);
+        color: white;
+      }
+
+      .probability-value-marker.safe {
+        background: var(--success);
+        color: white;
+      }
+
       .threshold-marker {
         position: relative;
         width: 100%;
@@ -1622,17 +1648,16 @@
 
       .threshold-line {
         position: absolute;
-        left: 50%;
         top: -25px;
         width: 2px;
         height: 30px;
         background: white;
         transform: translateX(-50%);
+        transition: left 0.3s ease;
       }
 
       .threshold-label {
         position: absolute;
-        left: 50%;
         top: -35px;
         transform: translateX(-50%);
         font-size: 0.75rem;
@@ -1640,6 +1665,8 @@
         background: rgba(0, 0, 0, 0.5);
         padding: 2px 8px;
         border-radius: 4px;
+        white-space: nowrap;
+        transition: left 0.3s ease;
       }
     </style>
   </head>
@@ -1884,7 +1911,7 @@
                   <div class="stage-number stage-6">6</div>
                   <div class="stage-info">
                     <h3>🎯 Final Classification</h3>
-                    <p>Probability compared against threshold (50%)</p>
+                    <p>Probability compared against threshold</p>
                   </div>
                 </div>
                 <div class="stage-content">
@@ -1892,18 +1919,29 @@
                     <div class="final-icon" id="finalIcon"></div>
                     <div class="final-label" id="finalLabel"></div>
 
-                    <div class="probability-bar">
-                      <div class="probability-fill" id="probabilityFill"></div>
-                    </div>
-
-                    <div class="threshold-marker">
-                      <div class="threshold-line"></div>
-                      <div class="threshold-label">50% Threshold</div>
+                    <div style="position: relative; margin: 50px 0 20px 0">
+                      <div
+                        class="probability-value-marker"
+                        id="probabilityMarker"
+                      >
+                        50%
+                      </div>
+                      <div class="probability-bar">
+                        <div
+                          class="probability-fill"
+                          id="probabilityFill"
+                        ></div>
+                      </div>
+                      <div class="threshold-marker">
+                        <div class="threshold-line" id="thresholdLine"></div>
+                        <div class="threshold-label" id="thresholdLabel">
+                          50% Threshold
+                        </div>
+                      </div>
                     </div>
 
                     <div class="probability-labels">
                       <span>0% (Safe)</span>
-                      <span id="probabilityValue">50%</span>
                       <span>100% (Hate)</span>
                     </div>
                   </div>
@@ -2017,10 +2055,18 @@
                 <ul>
                   <li><strong>Lowercasing</strong> — "HATE" → "hate"</li>
                   <li>
+                    <strong>Emoji Separation</strong> — Splits adjacent emojis:
+                    "😡🔪" → "😡 🔪"
+                  </li>
+                  <li>
                     <strong>URL Removal</strong> — Removes http://... links
                   </li>
                   <li>
                     <strong>Punctuation Removal</strong> — "hate!!!" → "hate"
+                  </li>
+                  <li>
+                    <strong>Number Removal</strong> — Removes only digits:
+                    "h8te" → "hte"
                   </li>
                   <li>
                     <strong>Stopword Removal</strong> — Removes common words
@@ -2032,10 +2078,10 @@
                   </li>
                 </ul>
                 <div class="code-example">
-                  <span class="label">Input:</span> "I HATE those people!!!
+                  <span class="label">Input:</span> "I HATE those people!!! 😡🔪
                   http://example.com"<br />
                   <span class="label">Output:</span>
-                  <span class="value">"hate peopl"</span>
+                  <span class="value">"hate peopl 😡 🔪"</span>
                 </div>
               </div>
             </div>
@@ -2487,6 +2533,7 @@
         // Stage 6: Final Result
         const isHate = data.prediction === "Hate Speech";
         const probability = data.probability * 100;
+        const threshold = (data.threshold || 0.5) * 100;
 
         const finalResult = document.getElementById("finalResult");
         finalResult.className = `final-result ${isHate ? "hate" : "safe"}`;
@@ -2495,15 +2542,28 @@
         document.getElementById("finalLabel").textContent = isHate
           ? "Hate Speech Detected"
           : "No Hate Speech";
-        document.getElementById(
-          "probabilityValue"
-        ).textContent = `${probability.toFixed(2)}%`;
 
+        // Update probability marker position and value
+        const probabilityMarker = document.getElementById("probabilityMarker");
+        probabilityMarker.textContent = `${probability.toFixed(2)}%`;
+        probabilityMarker.className = `probability-value-marker ${
+          isHate ? "hate" : "safe"
+        }`;
+        probabilityMarker.style.left = `${probability}%`;
+
+        // Update probability fill bar
         const probabilityFill = document.getElementById("probabilityFill");
         probabilityFill.className = `probability-fill ${
           isHate ? "hate" : "safe"
         }`;
         probabilityFill.style.width = `${probability}%`;
+
+        // Update threshold marker position
+        const thresholdLine = document.getElementById("thresholdLine");
+        const thresholdLabel = document.getElementById("thresholdLabel");
+        thresholdLine.style.left = `${threshold}%`;
+        thresholdLabel.style.left = `${threshold}%`;
+        thresholdLabel.textContent = `${threshold.toFixed(0)}% Threshold`;
       }
 
       // Train button handling
@@ -2577,13 +2637,14 @@
           "#5f27cd",
           "#00d2d3",
           "#2ed573",
-          "#a55eea",
+          "#fd79a8",
+          "#a29bfe",
         ];
         return colors[index % colors.length];
       }
 
       function getStepEmoji(index) {
-        const emojis = ["📝", "🔡", "🔗", "✂️", "🔢", "🚫", "🌱"];
+        const emojis = ["📝", "🔡", "😀", "🔗", "✂️", "🔢", "🚫", "🌱"];
         return emojis[index % emojis.length];
       }
     </script>
