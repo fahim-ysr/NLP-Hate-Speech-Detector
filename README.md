@@ -9,7 +9,7 @@ Online platforms are flooded with toxic content including hateful comments, abus
 I built a Hate Speech Detector that uses Deep Learning to automatically identify hateful or abusive text in real-time. The cool part? It understands context, not just keywords. So "I hate Mondays" won't be flagged, but actual abusive content will. It even catches hate speech hidden in emojis like "😡🔪", something most filters completely miss.
 
 ## Demo:
-[![Watch the video](img.jpg)]([https://youtu.be/N_eVg1CfNJw](https://youtu.be/RZHKMvM-3Uo))
+[![Watch the video](img.jpg)](https://youtu.be/RZHKMvM-3Uo)
 
 ## How It Works?
 
