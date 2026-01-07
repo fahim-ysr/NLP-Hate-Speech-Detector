@@ -12,7 +12,7 @@ from entity.artifact_entity import ModelPushArtifacts
 class ModelPush:
     def __init__(self, model_push_config: ModelPushConfig):
         """
-        Sets up model pushing woth config and Google Cloud connection
+        Sets up model pushing with config and Google Cloud connection
         """
 
         self.model_push_config = model_push_config

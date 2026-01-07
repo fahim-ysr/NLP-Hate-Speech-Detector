@@ -3,6 +3,6 @@ env
 .env
 __pycache__
 artifacts
-.h5
+*.h5
 logs*
-.pickle
+*.pickle
