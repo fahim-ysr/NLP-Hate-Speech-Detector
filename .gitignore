@@ -6,3 +6,4 @@ artifacts
 *.h5
 logs*
 *.pickle
+*.coverage
