@@ -1,9 +1,13 @@
-FROM python:3.9-slim
+FROM python:3.10-slim
 
-RUN apt update -y && apt install awscli -y
+# Sets the working directory
 WORKDIR /app
 
+# Copies the current directory contents into the container
 COPY . /app
+
+# Installs Python packages from requirements.txt
 RUN pip install -r requirements.txt
 
+# Command to run the application
 CMD ["python3", "application.py"]
